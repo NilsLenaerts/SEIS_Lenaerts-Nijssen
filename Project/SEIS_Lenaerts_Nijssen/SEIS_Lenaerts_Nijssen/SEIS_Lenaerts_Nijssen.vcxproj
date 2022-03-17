@@ -139,7 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ByteStream.cpp" />
     <ClCompile Include="SEIS_Lenaerts_Nijssen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ByteStream.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

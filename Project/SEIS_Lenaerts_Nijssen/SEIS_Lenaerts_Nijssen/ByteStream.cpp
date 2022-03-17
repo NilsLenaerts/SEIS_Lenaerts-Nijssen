@@ -28,14 +28,11 @@ void Bytestream::readFile(std::string path)
 			buffer.push_back(byte);
 		}
 		stream.close();
-
 	}
 	else {
 		//close program if didn't read a file
 		exit(EXIT_FAILURE);
 	}
-	
-
 }
 
 

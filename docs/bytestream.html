@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Xtra Blog</title>
+	<link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
+	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/templatemo-xtra-blog.css" rel="stylesheet">
+
+
+
+<!--
+    
+TemplateMo 553 Xtra Blog
+
+https://templatemo.com/tm-553-xtra-blog
+
+-->
+</head>
+<body>
+	<header class="tm-header" id="tm-header">
+        <div class="tm-header-wrapper">
+            <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="tm-site-header">
+                <div class="mb-3 mx-auto tm-site-logo"><i class="fas fa-times fa-2x"></i></div>            
+                <h1 class="text-center">SEIS Lenaerts Nijssen</h1>
+            </div>
+            <nav class="tm-nav" id="tm-nav">            
+                <ul>
+                    <li class="tm-nav-item"><a href="index.html" class="tm-nav-link">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a></li>
+                    <li class="tm-nav-item  active"><a href="bytestream.html" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        ByteStream
+                    </a></li>
+                    <li class="tm-nav-item"><a href="post2.html" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Post 2
+                    </a></li>
+                    
+                </ul>
+            </nav>
+            <div class="tm-mb-65">
+                <a rel="nofollow" href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/" class="tm-social-link">
+                    <i class="fab fa-github tm-social-icon"></i>
+                </a>
+            </div>
+           
+        </div>
+    </header>
+    <div class="container-fluid">
+        <main class="tm-main"> 
+            <div class="row tm-row">
+                <div class="col-lg-8 tm-post-col">
+                    <div class="tm-post-full">                    
+                        <div class="mb-4">
+                            <h2 class="pt-2 tm-color-primary tm-post-title">ByteStream</h2>
+                            <p class="tm-mb-40">Last edit: March 17, 2022 </p>
+                            <p>
+                                This part will go over the basics of the bytestream implementation.
+                            </p>   
+                        </div>                   
+                        <div>
+                            <h2 class="tm-color-primary tm-post-title"> 1) File Reading</h2>
+                            <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                                This part will go over the basics of the bytestream implementation.
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">void</span> Bytestream<span style="color: #666666">::</span>readFile(std<span style="color: #666666">::</span>string path)
+{
+    buffer.clear();
+    currentByteIndex <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+    <span style="color: #408080; font-style: italic">//read file in binary format</span>
+    std<span style="color: #666666">::</span>ifstream stream(path, std<span style="color: #666666">::</span>ifstream<span style="color: #666666">::</span>binary);
+    <span style="color: #008000; font-weight: bold">if</span> (stream.is_open()) {
+        <span style="color: #B00040">uint8_t</span> byte;
+        <span style="color: #008000; font-weight: bold">while</span> (stream.good()) {
+            byte <span style="color: #666666">=</span> stream.get();
+            buffer.push_back(byte);
+        }
+        stream.close();
+    }
+    <span style="color: #008000; font-weight: bold">else</span> {
+        <span style="color: #408080; font-style: italic">//close program if didn&#39;t read a file</span>
+        exit(EXIT_FAILURE);
+    }
+}
+</pre></div>
+
+
+
+
+
+
+                            </p>   
+                        </div>
+
+
+            <div class="row tm-row tm-mt-100 tm-mb-75">
+                <div class="tm-prev-next-wrapper">
+                    <a href="index.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">prev</a>
+                    <a href="post2.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                </div>
+            </div>           
+
+
+
+            <footer class="row tm-row">
+                <div class="col-md-6 col-12 tm-color-gray">
+                    Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
+                </div>
+                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+                    Copyright 2020 Xtra Blog Company Co. Ltd.
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/templatemo-script.js"></script>
+
+</body>
+</html>

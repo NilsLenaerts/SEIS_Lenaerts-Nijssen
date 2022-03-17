@@ -18,5 +18,13 @@
     <ClCompile Include="SEIS_Lenaerts_Nijssen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ByteStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ByteStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
