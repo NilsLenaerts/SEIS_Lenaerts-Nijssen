@@ -1,16 +1,15 @@
 <!DOCTYPE html>
+<!--http://hilite.me/ -> generator for code blocks -->
+
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Xtra Blog</title>
+	<title>SEIS_LENAERTS_NIJSSEN</title>
 	<link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
 	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/templatemo-xtra-blog.css" rel="stylesheet">
-
-
-
 <!--
     
 TemplateMo 553 Xtra Blog
@@ -61,55 +60,211 @@ https://templatemo.com/tm-553-xtra-blog
                     <div class="tm-post-full">                    
                         <div class="mb-4">
                             <h2 class="pt-2 tm-color-primary tm-post-title">ByteStream</h2>
-                            <p class="tm-mb-40">Last edit: March 17, 2022 </p>
+                            <p class="tm-mb-40">Last edit: March 23, 2022 </p>
                             <p>
-                                This part will go over the basics of the bytestream implementation.
+                                This part will go over the basics of the bytestream implementation. The bytestream will be needed before we can implement the "Virtual machine" in the next section. Below we will discuss what is included in the bytestream. 
                             </p>   
+                        </div>     
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Before starting off</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    Before jumping into the code let's first take a look at what we want to process. click <a href="https://webassembly.github.io/wabt/demo/wat2wasm/"target="_blank"> here </a> to open the tool used for generating the binary file.
+<!-- Code block binary example -->
+<div style=" overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;">
+<pre>
+    <code>
+0000000: 0061 736d    ; WASM_BINARY_MAGIC
+0000004: 0100 0000    ; WASM_BINARY_VERSION
+; section "Type" (1)
+0000008: 01           ; section code
+0000009: 00           ; section size (guess)
+000000a: 01           ; num types
+; func type 0
+000000b: 60           ; func
+000000c: 02           ; num params
+000000d: 7f           ; i32
+000000e: 7f           ; i32
+000000f: 01           ; num results
+0000010: 7f           ; i32
+0000009: 07           ; FIXUP section size
+; section "Function" (3)
+0000011: 03           ; section code
+0000012: 00           ; section size (guess)
+0000013: 01           ; num functions
+0000014: 00           ; function 0 signature index
+0000012: 02           ; FIXUP section size
+; section "Export" (7)
+0000015: 07           ; section code
+0000016: 00           ; section size (guess)
+0000017: 01           ; num exports
+0000018: 06           ; string length
+0000019: 6164 6454 776f      addTwo  ; export name
+000001f: 00           ; export kind
+0000020: 00           ; export func index
+0000016: 0a           ; FIXUP section size
+; section "Code" (10)
+0000021: 0a           ; section code
+0000022: 00           ; section size (guess)
+0000023: 01           ; num functions
+; function body 0
+0000024: 00           ; func body size (guess)
+0000025: 00           ; local decl count
+0000026: 20           ; local.get
+0000027: 00           ; local index
+0000028: 20           ; local.get
+0000029: 01           ; local index
+000002a: 6a           ; i32.add
+000002b: 0b           ; end
+0000024: 07           ; FIXUP func body size
+0000022: 09           ; FIXUP section size
+; section "name"
+000002c: 00           ; section code
+000002d: 00           ; section size (guess)
+000002e: 04           ; string length
+000002f: 6e61 6d65    name ; custom section name
+0000033: 02           ; local name type
+0000034: 00           ; subsection size (guess)
+0000035: 01           ; num functions
+0000036: 00           ; function index
+0000037: 02           ; num locals
+0000038: 00           ; local index
+0000039: 00           ; string length
+000003a: 01           ; local index
+000003b: 00           ; string length
+0000034: 07           ; FIXUP subsection size
+000002d: 0e           ; FIXUP section size
+    </code>
+</pre>
+                                </div>
+                               </p>   
                         </div>                   
                         <div>
-                            <h2 class="tm-color-primary tm-post-title"> 1) File Reading</h2>
+                            <h2 class="tm-color-primary tm-post-title"> Bytestream overview</h2>
                             <hr class="tm-hr-primary tm-mb-45">
                             <p>
-                                This part will go over the basics of the bytestream implementation.
-<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">void</span> Bytestream<span style="color: #666666">::</span>readFile(std<span style="color: #666666">::</span>string path)
-{
-    buffer.clear();
-    currentByteIndex <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
-    <span style="color: #408080; font-style: italic">//read file in binary format</span>
-    std<span style="color: #666666">::</span>ifstream stream(path, std<span style="color: #666666">::</span>ifstream<span style="color: #666666">::</span>binary);
-    <span style="color: #008000; font-weight: bold">if</span> (stream.is_open()) {
-        <span style="color: #B00040">uint8_t</span> byte;
-        <span style="color: #008000; font-weight: bold">while</span> (stream.good()) {
-            byte <span style="color: #666666">=</span> stream.get();
-            buffer.push_back(byte);
-        }
-        stream.close();
-    }
-    <span style="color: #008000; font-weight: bold">else</span> {
-        <span style="color: #408080; font-style: italic">//close program if didn&#39;t read a file</span>
-        exit(EXIT_FAILURE);
-    }
-}
+                                Now that we know what we would like to process it's time to look at how we do it.
+                                To start off we take a look at the interface for the bytestream afterwards we dive deeper into it's content.
+                                 The buffer vector will contain all bytes within our stream. and the currentbyteindex will indicate the position that we have within the stream. working by popping the front of our vector would cause trouble when we have to use seek to go back since that data would be gone. In this approach we will simply be able to move our currentbyteindex to hop back (or forward).
+                             </p>
+                             <p>
+                                The bytestream itself should be able to give us a translation of the binary format file we put in. Basically all functions that have the word "read" in them do this, But they all do it for different kinds of expected data.
+                                When used you should call the function of which the datatype is desired
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%">
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Bytestream</span> {
+
+<span style="color: #A0A000">private:</span>
+    std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span><span style="color: #B00040">uint8_t</span><span style="color: #666666">&gt;</span> buffer; 
+    <span style="color: #B00040">int</span> currentByteIndex{<span style="color: #666666">0</span>};
+
+<span style="color: #A0A000">public:</span>
+    Bytestream(std<span style="color: #666666">::</span>string path);
+    <span style="color: #B00040">uint8_t</span> <span style="color: #0000FF">readByte</span>();
+    std<span style="color: #666666">::</span>string readASCIIString(<span style="color: #B00040">int</span> length);
+    <span style="color: #B00040">int32_t</span>  <span style="color: #0000FF">readInt32</span>();  
+    <span style="color: #B00040">uint32_t</span> <span style="color: #0000FF">readUInt32</span>(); 
+    <span style="color: #B00040">int64_t</span>  <span style="color: #0000FF">readInt64</span>();   
+    <span style="color: #B00040">uint64_t</span> <span style="color: #0000FF">readUInt64</span>(); 
+    <span style="color: #B00040">void</span> <span style="color: #0000FF">seek</span>
+
+};
 </pre></div>
-
-
-
-
 
 
                             </p>   
                         </div>
+                        <div>
+                            <h2 class="tm-color-primary tm-post-title"> Reading a file into the bytestream</h2>
+                            <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                                To read files into our buffer we use the standard library filestream (ifstream). 
+                                The "stream.fail" if statement is to catch the case where there is a wrong file used as input. in that case the program will shut down.
+                                Now that we got a filestream we insert this stream byte per byte into our buffer. We don't need to worry about cleaning out our buffer since this is done in the constructor of our bytestream class (meaning our buffer will always be empty before we fill it). 
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%">Bytestream<span style="color: #666666">::</span>Bytestream(std<span style="color: #666666">::</span>string path)
+{
+    std<span style="color: #666666">::</span>ifstream stream(path, std<span style="color: #666666">::</span>ios<span style="color: #666666">::</span>binary);
+
+    <span style="color: #008000; font-weight: bold">if</span> (stream.fail()) {
+        <span style="color: #408080; font-style: italic">//File does not exist code here (1)</span>
+        std<span style="color: #666666">::</span>exit(<span style="color: #666666">0</span>);
+    }
+
+    <span style="color: #408080; font-style: italic">//copy all bytes into a buffer (2)</span>
+    std<span style="color: #666666">::</span>copy(
+        std<span style="color: #666666">::</span>istream_iterator<span style="color: #666666">&lt;</span><span style="color: #B00040">uint8_t</span><span style="color: #666666">&gt;</span>(stream),
+        std<span style="color: #666666">::</span>istream_iterator<span style="color: #666666">&lt;</span><span style="color: #B00040">uint8_t</span><span style="color: #666666">&gt;</span>(),
+        std<span style="color: #666666">::</span>back_inserter(buffer));
 
 
+}
+</pre></div>
+
+
+                            </p>   
+                        </div>
+                        <div>
+                            <h2 class="tm-color-primary tm-post-title"> Reading bytes</h2>
+                            <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                               Probably the easier part of the "read" functions is the readByte. This function well you might guess it reads a byte from the bytestream. In this function we first check if we didn't surpass the ending of our buffer and if we didn't we return the byte that the byteindex is pointing to and we also up this pointer by one to indicate the next byte. Like said before the buffer stays the same after the operation in case we hop back later with the seek function. Note that one byte can also resemble a character.
+                               You might ask "if this part is so simple why give the code and explaination", Well this is also the fundation for a lot of the other functions and as simple as it might be, it still is a very fundamental part of the read operations.
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">uint8_t</span> Bytestream<span style="color: #666666">::</span>readByte()
+{
+    <span style="color: #008000; font-weight: bold">if</span> (currentByteIndex <span style="color: #666666">&gt;</span> buffer.size()){ 
+        <span style="color: #008000; font-weight: bold">throw</span> std<span style="color: #666666">::</span>out_of_range(<span style="color: #BA2121">&quot;Index goes beyond buffer size&quot;</span>);
+    }
+
+    <span style="color: #B00040">uint8_t</span> byte{ buffer[currentByteIndex] };
+    <span style="color: #666666">++</span>currentByteIndex;
+    <span style="color: #008000; font-weight: bold">return</span> byte;
+}
+</pre></div>
+
+                            </p>   
+                        </div>
+                         <div>
+                            <h2 class="tm-color-primary tm-post-title"> Reading ASCII strings</h2>
+                            <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                               Ok so now that we know how to read a single byte (or char which might be easier to make this part better understandable) it's time to chain those bytes (or characters) into a string (or sentence/words). Now take a guess on how we might do this before looking at the code below.
+ </p>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%">std<span style="color: #666666">::</span>string Bytestream<span style="color: #666666">::</span>readASCIIString(<span style="color: #B00040">int</span> length)
+{
+    std<span style="color: #666666">::</span>string string{};
+
+    <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> length; <span style="color: #666666">++</span>i) {
+        string <span style="color: #666666">+=</span> readByte();
+    }
+
+    <span style="color: #008000; font-weight: bold">return</span> string;
+}
+</pre></div>
+                            <p>
+                                If you guessed that we just loop through the readbyte and add it all together into a string, You would be correct. since a single byte correlates to a char a chain of chars would make a word/sentence or in a more general term a "string". Since <a href="https://en.wikipedia.org/wiki/ASCII"target="_blank"> ASCII </a> is a standard encoding for letters into binary we don't need to change anything else about it.
+                            </p>
+                              
+                        </div>
+                        <div>
+                            <h2 class="tm-color-primary tm-post-title"> Reading Integers</h2>
+                            <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                               So far so good i hope? Because the next part is where things start to become a bit more difficult. Unlike characters and strings, Numbers are encoded in the <a href="https://en.wikipedia.org/wiki/LEB128"target="_blank"> LEB128 </a> format. This forms a bit more of a challange than just reading bytes out of the buffer.
+                                Now we also need to decode them. To give a little extra punch we also need to differenciate between signed and unsigned. (TODO continue)
+                            </p>
+                              
+                        </div>
+
+
+
+<!-- -->
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
                     <a href="index.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">prev</a>
                     <a href="post2.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
                 </div>
             </div>           
-
-
-
             <footer class="row tm-row">
                 <div class="col-md-6 col-12 tm-color-gray">
                     Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
