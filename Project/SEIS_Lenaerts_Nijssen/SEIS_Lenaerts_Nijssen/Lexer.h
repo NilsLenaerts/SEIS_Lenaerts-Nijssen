@@ -17,7 +17,4 @@ public:
 	std::vector<Token> getTokens() { return tokens; }
 	Lexer(std::string path);
 
-	
-	
-
 };

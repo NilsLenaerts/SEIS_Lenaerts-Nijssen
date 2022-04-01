@@ -65,96 +65,209 @@ https://templatemo.com/tm-553-xtra-blog
            
         </div>
     </header>
-    <div class="container-fluid">
-        <main class="tm-main">
-           
-            <div class="row tm-row">
-                <div class="col-12">
-                    <hr class="tm-hr-primary tm-mb-55">
-                    <!-- Video player 1422x800 -->
-                    <video width="954" height="535" controls class="tm-mb-40">
-                        <source src="video/wheat-field.mp4" type="video/mp4">							  
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
+     <div class="container-fluid">
+        <main class="tm-main"> 
             <div class="row tm-row">
                 <div class="col-lg-8 tm-post-col">
                     <div class="tm-post-full">                    
                         <div class="mb-4">
-                            <h2 class="pt-2 tm-color-primary tm-post-title">Single Post of Xtra Blog HTML Template</h2>
-                            <p class="tm-mb-40">June 16, 2020 posted by Admin Nat</p>
+                            <h2 class="pt-2 tm-color-primary tm-post-title">The Lexer</h2>
+                            <p class="tm-mb-40">Last edit: April 1, 2022 </p>
                             <p>
-                                This is a description of the video post. You can also have an image instead of
-                                the video. You can free download 
-                                <a rel="nofollow" href="https://templatemo.com/tm-553-xtra-blog" target="_blank">Xtra Blog Template</a> 
-                                from TemplateMo website. Phasellus maximus quis est sit amet maximus. Vestibulum vel rutrum
-                                lorem, ac sodales augue. Aliquam erat volutpat. Duis lectus orci, blandit in arcu
-                                est, elementum tincidunt lectus. Praesent vel justo tempor, varius lacus a,
-                        pharetra lacus. </p>
+                                So now that we got a WASM file running it's time to look closer at how we achieve such a file since Assembly files aren't found in the wild like some animals. No they are created through the use of a compiler that compiles the code written in more high level (and more readable) languages. In this part, the Parser and the compiler we are going to take a closer look at how we can go from a webassembly Text (WAT) file to our "Beloved" WebAssembly (WASM) we have seen before. To give a bit more of an overview of these steps and their order check the following picture:
+                            </p>   
+                            <img src="img/compiler_steps.jpg">
                             <p>
-                                Duis pretium efficitur nunc. Mauris vehicula nibh nisi. Curabitur gravida neque
-                                dignissim, aliquet nulla sed, condimentum nulla. Pellentesque id venenatis
-                                quam, id cursus velit. Fusce semper tortor ac metus iaculis varius. Praesent
-                                aliquam ex vel lectus ornare tristique. Nunc et eros quis enim feugiat tincidunt
-                                et vitae dui.
-                            </p>
-                            <span class="d-block text-right tm-color-primary">Creative . Design . Business</span>
-                        </div>
-                        
-                        <!-- Comments -->
-                        <div>
-                            <h2 class="tm-color-primary tm-post-title">Comments</h2>
-                            <hr class="tm-hr-primary tm-mb-45">
-                            <div class="tm-comment tm-mb-45">
-                                <figure class="tm-comment-figure">
-                                    <img src="img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                    <figcaption class="tm-color-primary text-center">Mark Sonny</figcaption>
-                                </figure>
-                                <div>
-                                    <p>
-                                        Praesent aliquam ex vel lectus ornare tritique. Nunc et eros
-                                        quis enim feugiat tincidunt et vitae dui. Nullam consectetur
-                                        justo ac ex laoreet rhoncus. Nunc id leo pretium, faucibus 
-                                        sapien vel, euismod turpis.
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <a href="#" class="tm-color-primary">REPLY</a>
-                                        <span class="tm-color-primary">June 14, 2020</span>
-                                    </div>                                                 
-                                </div>                                
-                            </div>
-                            <div class="tm-comment-reply tm-mb-45">
-                                <hr>
-                                <div class="tm-comment">
-                                    <figure class="tm-comment-figure">
-                                        <img src="img/comment-2.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                        <figcaption class="tm-color-primary text-center">Jewel Soft</figcaption>    
-                                    </figure>
-                                    <p>
-                                        Nunc et eros quis enim feugiat tincidunt et vitae dui.
-                                        Nullam consectetur justo ac ex laoreet rhoncus. Nunc
-                                        id leo pretium, faucibus sapien vel, euismod turpis.
-                                    </p>
-                                </div>                                
-                                <span class="d-block text-right tm-color-primary">June 21, 2020</span>
-                            </div>
-                                      
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
+                                You can see that the terms are quite different than we mentioned but for clarity: Lexical analyzer is the Lexer, the Syntax analyzer and the Sematic Analyzer make up the Parser and finaly the code generator is our compiler.
 
+                                I'd like to point out that this isn't all that there is to a compiler a more complete design can be found  <a href="https://www.tutorialspoint.com/compiler_design/compiler_design_phases_of_compiler.htm"target="_blank" class="tm-external-link"> here</a>.
+
+                            </p>
+                        </div>     
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Introduction to the Lexer</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    Ok so now that the overview of our compiler is done let's look closer at what this section
+                                    actually contains. "The Lexer", this part's main function is to do some pre processing of our source code. Think of things like comments and detecting variables/function calls. aswell as stuff like Strings, Numbers ,... will be done here. All of these small parts that make up the source code will later on be known as "Tokens".
+
+                               </p>   
+                        </div>
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Tokens</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    So as we said we analyze the parts of our code and kind of convert them to tokens which will be processed in later parts. But what exactly are these tokens.</p> 
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Token</span> {
+<span style="color: #A0A000">private:</span>
+    TypeOfToken type;
+    std<span style="color: #666666">::</span>variant<span style="color: #666666">&lt;</span>
+        <span style="color: #B00040">uint32_t</span>,
+        std<span style="color: #666666">::</span>string<span style="color: #666666">&gt;</span> value;
+<span style="color: #A0A000">public:</span>
+    Token(TypeOfToken type, std<span style="color: #666666">::</span>string value) <span style="color: #666666">:</span> type{ type }, value{ value } {}
+    Token(TypeOfToken type, <span style="color: #B00040">uint32_t</span> value) <span style="color: #666666">:</span> type{ type }, value{ value } {}
+
+};
+</pre></div>
+                                <p>
+                                    As can be seen there isn't much to our tokens. They simply have a value and we also identify them as a type of property. for example a string will be identified as a string and a variable will be identified as a identifier.
+                                    You can also see the use of a <a href="https://en.cppreference.com/w/cpp/utility/variant" target="_blank" class="tm-external-link"> variant</a> which is a C++17 or above function (so still quite new), what this does is that we enforce that our value is of one of the listed types in our variant. Kind of like a union but we don't necessarily use the same space as our largest item in the union. Just the space of our current type.
+
+                                    In the enum class here you can see the types that can be defined in our tokens. These should be pretty self explainatory.
+                                </p>
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">enum</span> <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">TypeOfToken</span> {
+    Identifier,
+    Bracket_Open,
+    Bracket_Close,
+    String,
+    Number
+};
+</pre></div>
+                        </div>                   
+        
+   <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Overview of the Lexer</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    Now that we know what tokens are and what part the lexer plays Let's look at what's actually inside of it. As can be expected we keep a vector of our tokens. Maybe a bit less expected is the return of the Bytestream and to give it a bit more context as to why we use it here is since it doesn't matter what your file looks like in the end it's just bytes in a row and for that the actual syntax used in the file doesn't matter for our bytestream. And since it has functions like "readchar" and "readbyte" that we need in the same way as before we might aswell use our existing implementation.
+                                    The extracts should be quite clear in function, they simply mean "give me this out of the bytestream and make a token out of it". These are private because we only want to use them upon lexing our file which is done through the "Lexbytestream" function (that get's called upon construction).
+
+                               </p>   
+                               <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #BC7A00">#include &lt;vector&gt;</span>
+<span style="color: #BC7A00">#include &quot;Token.h&quot;</span>
+<span style="color: #BC7A00">#include &quot;ByteStream.h&quot;</span>
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Lexer</span> {
+
+<span style="color: #A0A000">private:</span>
+    std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span>Token<span style="color: #666666">&gt;</span> tokens{};
+    Bytestream <span style="color: #666666">*</span>bytestream;
+    <span style="color: #B00040">void</span> <span style="color: #0000FF">lexBytestream</span>();
+
+    Token <span style="color: #0000FF">extractNumber</span>();
+    Token <span style="color: #0000FF">extractIdentifier</span>();
+    Token <span style="color: #0000FF">extractString</span>();
+    <span style="color: #B00040">void</span>  <span style="color: #0000FF">removeComment</span>(<span style="color: #B00040">bool</span> isMultiline);
+<span style="color: #A0A000">public:</span>
+    std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span>Token<span style="color: #666666">&gt;</span> getTokens() { <span style="color: #008000; font-weight: bold">return</span> tokens; }
+    Lexer(std<span style="color: #666666">::</span>string path);
+
+};
+</pre></div>
+<p>
+                                    Now you got an overview of what our Lexer does, let's look at it's part in more detail.
+
+                               </p>   
+                        </div>
+         
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">lexBytestream</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    This is basically our main function for the lexer, this controls what functions get called at what time. and it will fill up our tokens vector over time. To achieve this we iterate over our entire buffer. Now let's start with removing our first useless parts of code namely white spaces.
+                                    This is things like the normal space (" ") but also horizontal tabulation, line feed and carriage return. Maybe better known as "\t", "\n" and "\r". Like said these parts are junk code for the token creation and as such we just throw these parts away by skipping over them in our buffer.
+                               </p>   
+
+                               <p>
+                                    When we don't have one of these four characters there will be a token created. With the exception of comments being found which will also be thrown away but more on that later. First we start of with the different divisions. As can be seen we first check for numbers, after that we have identifiers (variables and functions) after that things like strings brackets and comments can be seen. 
+                               </p>  
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">void</span> Lexer<span style="color: #666666">::</span>lexBytestream()
+{
+    tokens <span style="color: #666666">=</span> std<span style="color: #666666">::</span>vector<span style="color: #666666">&lt;</span>Token<span style="color: #666666">&gt;</span>();    
+    
+    <span style="color: #008000; font-weight: bold">while</span> (<span style="color: #666666">!</span>bytestream<span style="color: #666666">-&gt;</span>atEnd()) {
+
+      
+        <span style="color: #008000; font-weight: bold">while</span> (Character<span style="color: #666666">::</span>isWhiteSpace(bytestream<span style="color: #666666">-&gt;</span>checkByte())) {
+            bytestream<span style="color: #666666">-&gt;</span>skipByte();  
+        }
+        <span style="color: #B00040">char</span> character <span style="color: #666666">=</span> bytestream<span style="color: #666666">-&gt;</span>checkByte();
+        <span style="color: #008000; font-weight: bold">if</span> (Character<span style="color: #666666">::</span>isNumber(character)) {
+            tokens.push_back(extractNumber());
+        }
+        <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (Character<span style="color: #666666">::</span>isWATIdentifier(character)) {
+            tokens.push_back(extractIdentifier());
+        }
+        <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (character <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;&quot;&#39;</span>) {
+            tokens.push_back(extractString());
+        }
+        <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (character <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;(&#39;</span>) {
+            bytestream<span style="color: #666666">-&gt;</span>skipByte();
+           
+            <span style="color: #008000; font-weight: bold">if</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;;&#39;</span>) {
+                removeComment(<span style="color: #008000">true</span>);
+            }
+            <span style="color: #008000; font-weight: bold">else</span> {
+                tokens.push_back(Token(TypeOfToken<span style="color: #666666">::</span>Bracket_Open, std<span style="color: #666666">::</span>string(<span style="color: #666666">1</span>, character)));
+            }
+        }
+        <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (character <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;)&#39;</span>) {
+            tokens.push_back(Token(TypeOfToken<span style="color: #666666">::</span>Bracket_Close, std<span style="color: #666666">::</span>string(<span style="color: #666666">1</span>, character)));
+        }
+        <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (character <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;;&#39;</span>) {
+            bytestream<span style="color: #666666">-&gt;</span>skipByte();
+            <span style="color: #008000; font-weight: bold">if</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;;&#39;</span>) {
+                removeComment(<span style="color: #008000">false</span>);
+            }
+            <span style="color: #008000; font-weight: bold">else</span> {
+
+                tokens.push_back(Token(TypeOfToken<span style="color: #666666">::</span>String, std<span style="color: #666666">::</span>string(<span style="color: #666666">1</span>, character)));
+            }
+        }
+
+    }
+
+}
+</pre></div>
+                                <p>
+                                   You might notice that we use some other class named "Character" in our code. This class consists only of static functions to make our lexer look a little bit cleaner. As we see the four characters we said earlier that were our "white spaces" can be seen in the "isWhiteSpace" functions. These are the only characters that will cause the function to return true. The "isWatIdentifier" function is a little bit more complex but to make it quick and easy, any variable you declare can only contain characters that can be found in the table of <a href="https://webassembly.github.io/spec/core/text/values.html" target="_blank" class="tm-external-link"> this documentation page </a>. This boils down to all numbers, alphabetical letters and a few special characters. You might also notice that sometimes we declare a single char to be a part of our list and sometimes a range. this has to do with the value that translate to the character using (you guessed it) <a href="https://en.wikipedia.org/wiki/ASCII" target="_blank" class="tm-external-link"> ASCII</a>. We also split off the alphabetical characters and the numbers since they can be usefull for other parts of the lexer and also a bit to keep some order.
+                                   </p>  
+                                   <p> The remaining functions are quite similar to what we just saw for the identifier but just for alphabetical characters and numbers so i won't be going in dept here since it should be clear if u got the previous part.
+                               </p>  
+
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Character</span> {
+<span style="color: #A0A000">public:</span>
+
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> isWhiteSpace(<span style="color: #B00040">char</span> c) {
+        <span style="color: #008000; font-weight: bold">return</span> (c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;\t&#39;</span> <span style="color: #666666">||</span> c <span style="color: #666666">==</span><span style="color: #BA2121">&#39;\n&#39;</span> <span style="color: #666666">||</span> c<span style="color: #666666">==</span><span style="color: #BA2121">&#39;\r&#39;</span> <span style="color: #666666">||</span> c<span style="color: #666666">==</span> <span style="color: #BA2121">&#39; &#39;</span>);
+    }
+   
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> isWATIdentifier(<span style="color: #B00040">char</span> c) {
+        <span style="color: #008000; font-weight: bold">return</span> 
+            (  Character<span style="color: #666666">::</span>isAlphabeticalChar
+            <span style="color: #666666">||</span> Character<span style="color: #666666">::</span>isNumber         
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;!&#39;</span> 
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;|&#39;</span>
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;~&#39;</span>
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;*&#39;</span>
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;+&#39;</span>
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;:&#39;</span>
+            <span style="color: #666666">||</span> c <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;\\&#39;</span>    <span style="color: #408080; font-style: italic">/*is just \ */</span> 
+            <span style="color: #666666">||</span> (c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;^&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;`&#39;</span>)
+            <span style="color: #666666">||</span> (c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;#&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;&amp;&#39;</span>)
+            <span style="color: #666666">||</span> (c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;-&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;/&#39;</span>)
+            <span style="color: #666666">||</span> (c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;&lt;&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;@&#39;</span>)
+            );
+    }
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> isAlphabeticalChar(<span style="color: #B00040">char</span> c) {
+        <span style="color: #008000; font-weight: bold">return</span>(c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;a&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;z&#39;</span>) <span style="color: #666666">||</span>(c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;A&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;Z&#39;</span>);
+    }
+
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> isNumber(<span style="color: #B00040">char</span> c) {
+        <span style="color: #008000; font-weight: bold">return</span> (c <span style="color: #666666">&gt;=</span> <span style="color: #BA2121">&#39;0&#39;</span> <span style="color: #666666">&amp;&amp;</span> c <span style="color: #666666">&lt;=</span> <span style="color: #BA2121">&#39;9&#39;</span>);
+    }
+};
+</pre></div>
+                        </div>
+
+
+<!-- -->
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
-                    <a href="virtualmachine.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Prev</a>
-                    <a href="parser.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                    <a href="index.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Prev</a>
+                    <a href="virtualmachine.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
                 </div>
             </div>           
-
-
-
             <footer class="row tm-row">
                 <div class="col-md-6 col-12 tm-color-gray">
                     Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>

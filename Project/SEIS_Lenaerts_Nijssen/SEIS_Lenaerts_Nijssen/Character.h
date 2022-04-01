@@ -9,9 +9,6 @@
 
 class Character {
 public:
-
-
-
 	/*
 	* following characters are considered white spaces
 	* horizontal tabulation, line feed, carriage return and off course the literal space character.
@@ -21,7 +18,6 @@ public:
 	static bool isWhiteSpace(char c) {
 		return (c == '\t' || c =='\n' || c=='\r' || c== ' ');
 	}
-
 	/*
 	* In the next function we are looking to what is possibly considered for identifiers in WAT 
 	* in this format we allow any symbol found at the bottom table of the page: https://webassembly.github.io/spec/core/text/values.html
@@ -45,9 +41,6 @@ public:
 			|| (c >= '<' && c <= '@')
 			);
 	}
-
-
-
 
 	// Since we use ascii we know a-> z are all in order we can assume that every value between the ASCII correspond for a and z will be a character that is also a part
 	// of the alphabet and thus also a option that should return true.

@@ -18,9 +18,7 @@ void Lexer::lexBytestream()
 		while (Character::isWhiteSpace(bytestream->checkByte())) {
 			bytestream->skipByte();	//we skip this byte
 		}
-
 		char character = bytestream->checkByte();
-
 		//we use the if else since we already defined functions to do some checks for us (check character class)
 		//and well these functions don't really work right off the bat in a switch even though it's a lot of if else
 		//we check numbers prior to identifiers since numbers are a part of identifiers and we need numbers seperate aswell
