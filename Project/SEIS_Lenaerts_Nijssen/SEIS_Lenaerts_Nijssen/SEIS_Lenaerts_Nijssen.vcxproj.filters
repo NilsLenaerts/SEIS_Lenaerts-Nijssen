@@ -18,12 +18,24 @@
     <ClCompile Include="SEIS_Lenaerts_Nijssen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ByteStream.cpp">
+    <ClCompile Include="Bytestream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lexer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ByteStream.h">
+    <ClInclude Include="Bytestream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Token.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

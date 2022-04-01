@@ -4,7 +4,7 @@
 (3) https://en.wikipedia.org/wiki/LEB128
 */
 
-#include "ByteStream.h"
+#include "Bytestream.h"
 
 
 
@@ -28,12 +28,19 @@ Bytestream::Bytestream(std::string path)
 
 uint8_t Bytestream::readByte()
 {
-	if (currentByteIndex > buffer.size()){ //there is no item remaining in the buffer
+	uint8_t byte = checkByte();
+	++currentByteIndex;
+	return byte;
+}
+
+uint8_t Bytestream::checkByte()
+{
+	if (currentByteIndex > buffer.size()) { //there is no item remaining in the buffer
 		throw std::out_of_range("Index goes beyond buffer size");
 	}
 
 	uint8_t byte{ buffer[currentByteIndex] };
-	++currentByteIndex;
+	
 	return byte;
 }
 
@@ -140,4 +147,14 @@ uint64_t Bytestream::readUInt64()
 void Bytestream::seek(int offset)
 {
 	currentByteIndex += offset;
+}
+
+bool Bytestream::atEnd()
+{
+	return (currentByteIndex >= buffer.size());
+}
+
+void Bytestream::skipByte()
+{
+	++currentByteIndex;
 }

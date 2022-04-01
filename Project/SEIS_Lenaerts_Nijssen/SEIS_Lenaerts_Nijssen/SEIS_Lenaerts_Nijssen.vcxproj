@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,11 +140,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ByteStream.cpp" />
+    <ClCompile Include="Bytestream.cpp" />
     <ClCompile Include="SEIS_Lenaerts_Nijssen.cpp" />
+    <ClCompile Include="Lexer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ByteStream.h" />
+    <ClInclude Include="Bytestream.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="Token.h" />
+    <ClInclude Include="Lexer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
