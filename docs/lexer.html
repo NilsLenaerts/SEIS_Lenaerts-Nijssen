@@ -72,7 +72,7 @@ https://templatemo.com/tm-553-xtra-blog
                     <div class="tm-post-full">                    
                         <div class="mb-4">
                             <h2 class="pt-2 tm-color-primary tm-post-title">The Lexer</h2>
-                            <p class="tm-mb-40">Last edit: April 1, 2022 </p>
+                            <p class="tm-mb-40">Last edit: April 1, 2022 (no this part ain't a joke)</p>
                             <p>
                                 So now that we got a WASM file running it's time to look closer at how we achieve such a file since Assembly files aren't found in the wild like some animals. No they are created through the use of a compiler that compiles the code written in more high level (and more readable) languages. In this part, the Parser and the compiler we are going to take a closer look at how we can go from a webassembly Text (WAT) file to our "Beloved" WebAssembly (WASM) we have seen before. To give a bit more of an overview of these steps and their order check the following picture:
                             </p>   
@@ -260,12 +260,100 @@ https://templatemo.com/tm-553-xtra-blog
 </pre></div>
                         </div>
 
+ <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Extracting properties</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    Let's jump back to our lexer, more specifically to the parts that extract data from the buffer and processes them into tokens. Most of these are quite self explainatory once you know the syntax of what we start off with (WAT) or just more general looks of let's say numbers.
+
+                               </p>   
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%">Token Lexer<span style="color: #666666">::</span>extractNumber()
+{
+    std<span style="color: #666666">::</span>string result{};
+    <span style="color: #008000; font-weight: bold">while</span> (Character<span style="color: #666666">::</span>isNumber(bytestream<span style="color: #666666">-&gt;</span>checkByte())) {
+        result.append(<span style="color: #666666">1</span>, bytestream<span style="color: #666666">-&gt;</span>readByte());
+    }
+    <span style="color: #008000; font-weight: bold">return</span> Token(TypeOfToken<span style="color: #666666">::</span>Number, result);
+
+}
+
+Token Lexer<span style="color: #666666">::</span>extractIdentifier()
+{
+    std<span style="color: #666666">::</span>string result{};
+    <span style="color: #008000; font-weight: bold">while</span> (Character<span style="color: #666666">::</span>isWATIdentifier(bytestream<span style="color: #666666">-&gt;</span>checkByte())) {
+        result.append(<span style="color: #666666">1</span>, bytestream<span style="color: #666666">-&gt;</span>readByte());
+    }
+    <span style="color: #008000; font-weight: bold">return</span> Token(TypeOfToken<span style="color: #666666">::</span>Identifier, result);
+}
+
+Token Lexer<span style="color: #666666">::</span>extractString()
+{
+    std<span style="color: #666666">::</span>string result{};
+    bytestream<span style="color: #666666">-&gt;</span>skipByte();  <span style="color: #408080; font-style: italic">//we skip a byte since we start off with our &quot;</span>
+    <span style="color: #008000; font-weight: bold">while</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">!=</span> <span style="color: #BA2121">&#39;&quot;&#39;</span>) {
+        result.append(<span style="color: #666666">1</span>, bytestream<span style="color: #666666">-&gt;</span>readByte());
+    }
+    bytestream<span style="color: #666666">-&gt;</span>skipByte();  <span style="color: #408080; font-style: italic">//same at the end of our string</span>
+    <span style="color: #008000; font-weight: bold">return</span> <span style="color: #0000FF">Token</span>(TypeOfToken<span style="color: #666666">::</span>String, result);
+}
+</pre></div>
+                                <p>
+                                    The numbers and identifiers start off in the same manner but they have different sets of characters that can possibly be used for them. For both we use the earlier defined character functions. One for all the numbers [0-9] and the other for any WatIdentifier allowed character (check part on the character class if unclear). And well as long as the byte we read is part of what we are trying to extract we just keep going and we add them to a string. Later on we put the final result into a token and we add it to our vector of tokens. Note that we first check what is in the byte before we go to the next item in our buffer. This is in case that we must end our function as the next byte might be part of an entire different token.
+
+                               </p> <p>
+                                    With strings we change our strategy slightly, as you might know strings are defined as some characters between two of these " symbols. We can use this property of strings to define when our string starts and ends. the start is done in our lexBytestream, but for the end we simply need to search this same symbol and as such we just keep adding characters to our string as long as we don't see that "".
+                               </p> 
+
+
+                        </div>
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Removing comments</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                    As we have seen before we get rid of unnecessary white space, some other type of code that is essentially useless at runtime are comments. Because comments are only usefull to the people trying to figure our what the code means (kind of like this blog) and not to the machine we eventually run it on, we should get rid of them. Now let's first look at how we make a comment in WAT before we go into how we remove them. In WAT like in most other languages we can either use single line comments or multiline comments. 
+                                    </p>  <p>
+                                     Singleline comments in WAT always starts with ;; and they will end on the line end (or with \n which might be usefull info later on)
+                                    </p>  <p>
+                                        Multiline comments on the other hand start with (; and they keep going untill we eventually reach ;). This type of comment doesn't look at the end of lines, it just keeps going.
+                               </p>  
+                               <div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">void</span> Lexer<span style="color: #666666">::</span>removeComment(<span style="color: #B00040">bool</span> isMultiline)   
+{
+
+    bytestream<span style="color: #666666">-&gt;</span>skipByte();
+    <span style="color: #008000; font-weight: bold">if</span> (isMultiline) {
+        <span style="color: #008000; font-weight: bold">while</span> (<span style="color: #008000">true</span>) {
+            <span style="color: #008000; font-weight: bold">if</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;;&#39;</span>) {
+                bytestream<span style="color: #666666">-&gt;</span>skipByte();
+                <span style="color: #008000; font-weight: bold">if</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">==</span> <span style="color: #BA2121">&#39;)&#39;</span>) {
+                    <span style="color: #008000; font-weight: bold">return</span>;
+                }
+            }
+            bytestream<span style="color: #666666">-&gt;</span>skipByte();
+        }
+    }
+    <span style="color: #008000; font-weight: bold">else</span> {   
+        <span style="color: #008000; font-weight: bold">while</span> (bytestream<span style="color: #666666">-&gt;</span>checkByte() <span style="color: #666666">!=</span> <span style="color: #BA2121">&#39;\n&#39;</span>) {
+            bytestream<span style="color: #666666">-&gt;</span>skipByte();
+        }
+    }
+}
+</pre></div>
+                                <p>
+                                        To start off, we know our current byte is a ; which will need to be removed anyway (so we just skip it). in our big if statement we do the if part if it's multiline and for singleline the else part will be run. Note that in the entire function there isn't a single line indicating that a token is being made and well that's because it doesn't. Simply because like mentioned before it's all junk to the machine. for our multiline we just keep skipping untill we fine our ;) at which point we break our function.
+                                        For singleline we will brake on the (famous) \n.
+                               </p>
+                        </div>
+
+
 
 <!-- -->
+
+
+
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
-                    <a href="index.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Prev</a>
-                    <a href="virtualmachine.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
+                    <a href="virtualmachine.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Prev</a>
+                    <a href="parser.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
                 </div>
             </div>           
             <footer class="row tm-row">

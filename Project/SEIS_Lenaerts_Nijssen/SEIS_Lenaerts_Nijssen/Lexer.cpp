@@ -118,14 +118,8 @@ void Lexer::removeComment(bool isMultiline)
 					return;
 				}
 			}
-
-
-
 			bytestream->skipByte();
 		}
-
-
-
 	}
 	else {
 		//single line comment --> just break on \n
@@ -133,7 +127,5 @@ void Lexer::removeComment(bool isMultiline)
 		while (bytestream->checkByte() != '\n') {
 			bytestream->skipByte();
 		}
-	
 	}
-
 }
