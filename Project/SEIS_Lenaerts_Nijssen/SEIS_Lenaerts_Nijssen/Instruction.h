@@ -1,6 +1,14 @@
 #pragma once
 #include "InstructionSet.h"
 
+enum class InstructionType {
+	CONST,CALC,WITHPARAM,WITHOUTPARAM,
+
+};
+
+
+
+
 class Instruction {
 public:
 	static InstructionSet getInstruction(std::string inst) {
@@ -25,12 +33,23 @@ public:
 		if (inst == "local.get") return InstructionSet::localget;
 		if (inst == "local.set") return InstructionSet::localset;
 
-
+		if (inst == "func") return InstructionSet::function;
 		if (inst == "end") return InstructionSet::end;
 		if (inst == "call") return InstructionSet::call;
 	}
+	static bool isConst(InstructionSet instruction) {
+		//extend the () part with "||" if we have more constant instructions
+		return  instruction == (InstructionSet::i32const);
+	
+	}
+
+
+	Instruction(InstructionType instructionType, int opcode);
 
 private:
+	int depth;
 
+	int opcode;
+	InstructionType instructionType;
 
 };

@@ -27,5 +27,6 @@ private:
 public:
 	Token(TypeOfToken type, std::string value) : type{ type }, value{ value } {}
 	Token(TypeOfToken type, uint32_t value) : type{ type }, value{ value } {}
-
+	std::string getStringValue();
+	TypeOfToken getTokenType();
 };
