@@ -143,10 +143,15 @@
     <ClCompile Include="Bytestream.cpp" />
     <ClCompile Include="SEIS_Lenaerts_Nijssen.cpp" />
     <ClCompile Include="Lexer.cpp" />
+    <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="Instruction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bytestream.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="InstructionSet.h" />
+    <ClInclude Include="Instruction.h" />
+    <ClInclude Include="Parser.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Lexer.h" />
   </ItemGroup>
