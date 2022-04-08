@@ -145,10 +145,13 @@
     <ClCompile Include="Lexer.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="Instruction.cpp" />
+    <ClCompile Include="Compiler.cpp" />
+    <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bytestream.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Compiler.h" />
     <ClInclude Include="InstructionSet.h" />
     <ClInclude Include="Instruction.h" />
     <ClInclude Include="Parser.h" />

@@ -1,9 +1,10 @@
 #pragma once
 #include "InstructionSet.h"
-
+#include <variant>
+#include <string>
 enum class InstructionType {
-	CONST,CALC,WITHPARAM,WITHOUTPARAM,
-
+	CONST,CALC,
+	WITHPARAM,WITHOUTPARAM,
 };
 
 
@@ -37,19 +38,34 @@ public:
 		if (inst == "end") return InstructionSet::end;
 		if (inst == "call") return InstructionSet::call;
 	}
+
 	static bool isConst(InstructionSet instruction) {
 		//extend the () part with "||" if we have more constant instructions
 		return  instruction == (InstructionSet::i32const);
 	
 	}
+	static bool hasParam(InstructionSet inst) {
+		return !(inst == InstructionSet::IF  || inst == InstructionSet::ELSE ||
+				 inst == InstructionSet::end || inst == InstructionSet::unreachable);
+	}
+
+	static bool isCalc(InstructionSet inst) {
+		return (inst == InstructionSet::i32add || inst == InstructionSet::i32sub   ||
+				inst == InstructionSet::i32mul || inst == InstructionSet::i32div_s ||
+				inst == InstructionSet::i32div_u);
+	}
 
 
-	Instruction(InstructionType instructionType, int opcode);
 
+	Instruction(InstructionType instructionType, uint32_t opcode, int depth, uint32_t param=0);
+	InstructionType getInstructionType()const;
+	int getDepth() const;
+	uint32_t getOpcode() const;
+	uint32_t getParam()const;
 private:
-	int depth;
-
-	int opcode;
+	uint32_t param=0;
+	int depth=0;
+	uint32_t opcode;
 	InstructionType instructionType;
 
 };

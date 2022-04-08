@@ -1,4 +1,5 @@
 #include "Token.h"
+#include "Token.h"
 
 std::string Token::getStringValue()
 {
@@ -7,6 +8,14 @@ std::string Token::getStringValue()
     }
     return nullptr;
 
+}
+
+uint32_t Token::getI32Value()
+{
+    if (auto result = std::get_if<uint32_t>(&value)) {
+        return std::get<uint32_t>(value);
+    }
+    return nullptr;
 }
 
 TypeOfToken Token::getTokenType()
