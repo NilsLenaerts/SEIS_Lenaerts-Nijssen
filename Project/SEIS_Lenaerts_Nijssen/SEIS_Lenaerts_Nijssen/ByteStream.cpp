@@ -38,12 +38,6 @@ uint8_t Bytestream::readByte()
 {
 	uint8_t byte = checkByte();
 
-	//this is as a check
-	std::cout << buffer.size() << "\t"<<currentByteIndex << "\t";
-	std::cout << byte;
-	std::cout << "\n";
-
-
 	++currentByteIndex;
 	return byte;
 }

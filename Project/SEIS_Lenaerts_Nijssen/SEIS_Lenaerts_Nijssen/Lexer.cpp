@@ -12,11 +12,9 @@ Lexer::Lexer(std::string path) {
 void Lexer::lexBytestream()
 {
 	tokens = std::vector<Token>();	//We start off by making an empty vector which we will fill up.
-	int counter = 0;
 	//well if we are over our bytestream length then we don't need to continue as we just well won't achieve anything with it.
 	while (!bytestream->atEnd()) {
-		std::cout <<"counter at:" << counter <<"\n";
-		++counter;
+		
 		//First we check if what we have is a white space (and thus skipped for our tokens)
 		while (Character::isWhiteSpace(bytestream->checkByte())) {
 			bytestream->skipByte();	//we skip this byte
@@ -46,6 +44,7 @@ void Lexer::lexBytestream()
 		}
 		else if (character == ')') {
 			tokens.push_back(Token(TypeOfToken::Bracket_Close, std::string(1, character)));
+			bytestream->skipByte();
 		}
 		else if (character == ';') {
 			bytestream->skipByte();
@@ -70,10 +69,10 @@ void Lexer::printTokens()
 	for (Token token : tokens) {
 		TypeOfToken tokentype = token.getTokenType();
 		if (tokentype == TypeOfToken::Number) {
-			std::cout << token.getI32Value();
+			std::cout << token.getI32Value()<<"\n";
 		}
 		else {
-			std::cout << token.getStringValue();
+			std::cout << token.getStringValue() << "\n";
 		}
 	}
 }
@@ -83,7 +82,7 @@ Token Lexer::extractNumber()
 	std::string result{};
 	while (Character::isNumber(bytestream->checkByte())) {
 		result.append(1, bytestream->readByte());
-		std::cout << "we got a number";
+
 	}
 	return Token(TypeOfToken::Number, result);
 
@@ -93,9 +92,8 @@ Token Lexer::extractIdentifier()
 {
 	std::string result{};
 	while (Character::isWATIdentifier(bytestream->checkByte())) {
-		std::cout << Character::isWATIdentifier(bytestream->checkByte()) << "\t";
 		result.append(1, bytestream->readByte());
-		std::cout << "we got a id\t";
+		
 	}
 	return Token(TypeOfToken::Identifier, result);
 }
