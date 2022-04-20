@@ -26,9 +26,12 @@ Bytestream::Bytestream(std::string path)
 		std::istream_iterator<uint8_t>(),
 		std::back_inserter(buffer));
 
+	//stream.close(); //maybe not neccessarry
 
 }
 
+
+Bytestream::Bytestream() {};
 
 
 uint8_t Bytestream::readByte()

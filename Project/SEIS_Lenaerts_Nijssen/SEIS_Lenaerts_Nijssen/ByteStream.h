@@ -16,7 +16,11 @@ private:
 
 public:
     Bytestream(std::string path);
+
+    Bytestream();
+
     Bytestream(std::vector<uint8_t> bytes);
+
     uint8_t readByte(); // or unsigned char, or std::byte, or uint8_t
     uint8_t checkByte(); // does the same as readbyte but it doesn't change the index
 
