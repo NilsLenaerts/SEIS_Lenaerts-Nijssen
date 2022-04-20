@@ -1,6 +1,9 @@
 #include "Instruction.h"
-//comment
-Instruction::Instruction(InstructionType instructionType, uint32_t opcode, int depth, uint32_t param = 0) 
+
+
+
+
+Instruction::Instruction(InstructionType instructionType, uint32_t opcode, int depth, uint32_t param) 
 	: instructionType{ instructionType }, opcode{ opcode }, depth{ depth }, param{param} {}
 
 

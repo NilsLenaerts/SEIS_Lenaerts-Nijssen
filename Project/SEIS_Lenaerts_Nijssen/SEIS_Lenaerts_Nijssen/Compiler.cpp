@@ -1,15 +1,22 @@
 #include "Compiler.h"
 
-Compiler::Compiler(std::vector<Instruction> instructions) : instructions{ instructions } {}
+Compiler::Compiler(std::vector<Instruction> instructions) : instructions{ instructions } {
+	compile();
+}
 
 
 Bytestream Compiler::compile() {
+	std::vector<uint8_t> bytes{};
 	//todo --> check depth of instruction aswell since we can't fold over different depths
 	// we also need to be aware of that because we can't use variables that are deeper than our current depth
 	foldConstants();
 	//todo --> functionInLine completion
 	functionInline();
 	//todo --> convertion to WASM
+
+
+	Bytestream stream{ bytes };
+	return stream;
 }
 
 
@@ -81,6 +88,8 @@ void Compiler::functionInline()
 	//to start off we need to define the functions and how many times they are called, then if a function is called less than X times we inline it.
 	for (Instruction instr : instructions) {
 		if (instr.getOpcode() == (uint32_t) InstructionSet::function) {
+
+			functions.insert(std::pair<std::string, int>{"nameOfFunction", 0});
 			//in here we got a function to be created
 			//!todo insert function into map
 		}

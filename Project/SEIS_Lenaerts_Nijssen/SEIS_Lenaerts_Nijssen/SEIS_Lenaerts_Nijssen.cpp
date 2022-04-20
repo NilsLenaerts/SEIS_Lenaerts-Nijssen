@@ -2,11 +2,30 @@
 //
 
 #include <iostream>
+#include "ByteStream.h"
+#include "Lexer.h"
+#include "Parser.h"
+#include "Compiler.h"
+
+
+void compileWATfile(std::string location) {
+    Lexer lexer{ location };
+    Parser parser{ lexer };
+    Compiler compiler{ parser.parse() };
+
+}
+
 
 int main()
 {
     std::cout << "Hello World!\n";
+    std::string location{"example.txt"}; //!todo make this an actual file
+
+    compileWATfile(location);
+
 }
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

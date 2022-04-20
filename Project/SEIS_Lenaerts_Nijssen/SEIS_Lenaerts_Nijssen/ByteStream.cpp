@@ -7,7 +7,10 @@
 #include "Bytestream.h"
 
 
+//this one is for when we use the compiler before we "run it"
+Bytestream::Bytestream(std::vector<uint8_t> bytes) : buffer{bytes}{}
 
+//this is for file reading
 Bytestream::Bytestream(std::string path)
 {
 	std::ifstream stream(path, std::ios::binary);
@@ -25,6 +28,8 @@ Bytestream::Bytestream(std::string path)
 
 
 }
+
+
 
 uint8_t Bytestream::readByte()
 {

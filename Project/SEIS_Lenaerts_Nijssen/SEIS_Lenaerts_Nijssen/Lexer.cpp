@@ -5,6 +5,7 @@
 Lexer::Lexer(std::string path) {
 	bytestream = new Bytestream{ path };
 	lexBytestream();
+	printTokens();
 }
 
 void Lexer::lexBytestream()
@@ -58,6 +59,19 @@ void Lexer::lexBytestream()
 
 	}
 
+}
+
+void Lexer::printTokens()
+{
+	for (Token token : tokens) {
+		TypeOfToken tokentype = token.getTokenType();
+		if (tokentype == TypeOfToken::Number) {
+			std::cout << token.getI32Value();
+		}
+		else {
+			std::cout << token.getStringValue();
+		}
+	}
 }
 
 Token Lexer::extractNumber()

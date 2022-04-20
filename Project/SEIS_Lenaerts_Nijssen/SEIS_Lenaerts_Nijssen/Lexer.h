@@ -8,7 +8,7 @@ private:
 	std::vector<Token> tokens{};
 	Bytestream *bytestream;// We can reuse the bytestream for the WAT file
 	void lexBytestream();
-
+	void printTokens();
 	Token extractNumber();
 	Token extractIdentifier();
 	Token extractString();
