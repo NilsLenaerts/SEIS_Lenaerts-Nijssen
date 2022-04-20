@@ -14,7 +14,7 @@ Bytestream::Bytestream(std::vector<uint8_t> bytes) : buffer{bytes}{}
 Bytestream::Bytestream(std::string path)
 {
 	std::ifstream stream(path, std::ios::binary);
-
+	stream.unsetf(std::ios_base::skipws);
 	if (stream.fail()) {
 		//File does not exist code here (1)
 		std::exit(0);
@@ -34,12 +34,21 @@ Bytestream::Bytestream(std::string path)
 uint8_t Bytestream::readByte()
 {
 	uint8_t byte = checkByte();
+
+	//this is as a check
+	std::cout << buffer.size() << "\t"<<currentByteIndex << "\t";
+	std::cout << byte;
+	std::cout << "\n";
+
+
 	++currentByteIndex;
 	return byte;
 }
 
 uint8_t Bytestream::checkByte()
 {
+
+	
 	if (currentByteIndex > buffer.size()) { //there is no item remaining in the buffer
 		throw std::out_of_range("Index goes beyond buffer size");
 	}

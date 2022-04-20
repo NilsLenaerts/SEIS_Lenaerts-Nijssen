@@ -25,8 +25,8 @@ public:
 	*/
 	static bool isWATIdentifier(char c) {
 		return 
-			(  Character::isAlphabeticalChar
-			|| Character::isNumber 
+			(  Character::isAlphabeticalChar(c)
+			|| Character::isNumber(c)
 			//Here we have the other identifiers. some are in order that's why we sometimes use ranges and sometimes single chars
 			|| c == '!' 
 			|| c == '|'
@@ -48,7 +48,7 @@ public:
 	//according to that table we can see that capital and normal letters don't follow up on eachother but they have their own kind of seperate groups.
 	//so we need to divide those up a little hence the "or" statement
 	static bool isAlphabeticalChar(char c) {
-		return(c >= 'a' && c <= 'z') ||(c >= 'A' && c <= 'Z');
+		return((c >= 'a' && c <= 'z') ||(c >= 'A' && c <= 'Z'));
 	}
 	//Same train of thought as the chars
 	static bool isNumber(char c) {

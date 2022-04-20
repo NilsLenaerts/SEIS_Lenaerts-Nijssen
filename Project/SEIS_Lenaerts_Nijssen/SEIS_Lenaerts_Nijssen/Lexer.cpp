@@ -4,6 +4,7 @@
 
 Lexer::Lexer(std::string path) {
 	bytestream = new Bytestream{ path };
+	
 	lexBytestream();
 	printTokens();
 }
@@ -11,13 +12,15 @@ Lexer::Lexer(std::string path) {
 void Lexer::lexBytestream()
 {
 	tokens = std::vector<Token>();	//We start off by making an empty vector which we will fill up.
-	
+	int counter = 0;
 	//well if we are over our bytestream length then we don't need to continue as we just well won't achieve anything with it.
 	while (!bytestream->atEnd()) {
-
+		std::cout <<"counter at:" << counter <<"\n";
+		++counter;
 		//First we check if what we have is a white space (and thus skipped for our tokens)
 		while (Character::isWhiteSpace(bytestream->checkByte())) {
 			bytestream->skipByte();	//we skip this byte
+			
 		}
 		char character = bytestream->checkByte();
 		//we use the if else since we already defined functions to do some checks for us (check character class)
@@ -26,9 +29,7 @@ void Lexer::lexBytestream()
 		if (Character::isNumber(character)) {
 			tokens.push_back(extractNumber());
 		}
-		else if (Character::isWATIdentifier(character)) {
-			tokens.push_back(extractIdentifier());
-		}
+		
 		else if (character == '"') {
 			tokens.push_back(extractString());
 		}
@@ -56,6 +57,9 @@ void Lexer::lexBytestream()
 				tokens.push_back(Token(TypeOfToken::String, std::string(1, character)));
 			}
 		}
+		else if (Character::isWATIdentifier(character)) {
+			tokens.push_back(extractIdentifier());
+		}
 
 	}
 
@@ -79,6 +83,7 @@ Token Lexer::extractNumber()
 	std::string result{};
 	while (Character::isNumber(bytestream->checkByte())) {
 		result.append(1, bytestream->readByte());
+		std::cout << "we got a number";
 	}
 	return Token(TypeOfToken::Number, result);
 
@@ -88,7 +93,9 @@ Token Lexer::extractIdentifier()
 {
 	std::string result{};
 	while (Character::isWATIdentifier(bytestream->checkByte())) {
+		std::cout << Character::isWATIdentifier(bytestream->checkByte()) << "\t";
 		result.append(1, bytestream->readByte());
+		std::cout << "we got a id\t";
 	}
 	return Token(TypeOfToken::Identifier, result);
 }

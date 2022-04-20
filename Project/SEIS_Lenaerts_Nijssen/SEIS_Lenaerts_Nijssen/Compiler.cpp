@@ -7,14 +7,13 @@ Compiler::Compiler(std::vector<Instruction> instructions) : instructions{ instru
 
 Bytestream Compiler::compile() {
 	std::vector<uint8_t> bytes{};
-	//todo --> check depth of instruction aswell since we can't fold over different depths
-	// we also need to be aware of that because we can't use variables that are deeper than our current depth
+
 	foldConstants();
 	//todo --> functionInLine completion
 	functionInline();
 	//todo --> convertion to WASM
 
-
+	//this is to return our result
 	Bytestream stream{ bytes };
 	return stream;
 }
