@@ -30,7 +30,7 @@ public:
 		if (inst == "local.get") return InstructionSet::localget;
 		if (inst == "local.set") return InstructionSet::localset;
 
-		if (inst == "func") return InstructionSet::function;
+		if (inst == "func") return InstructionSet::func;
 		if (inst == "end") return InstructionSet::end;
 		if (inst == "call") return InstructionSet::call;
 	}

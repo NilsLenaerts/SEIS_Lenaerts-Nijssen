@@ -1,5 +1,5 @@
 #pragma once
-#include "Bytestream.cpp"
+#include "Bytestream.h"
 #include "InstructionSet.h"
 #include <string>
 
