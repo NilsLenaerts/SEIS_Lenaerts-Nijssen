@@ -2,5 +2,7 @@
 *.filters
 Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Debug/*
 Project/SEIS_Lenaerts_Nijssen/Debug/*
+Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Release/*
+Project/SEIS_Lenaerts_Nijssen/Release/*
 
 Project/SEIS_Lenaerts_NIjssen/.vs/*
