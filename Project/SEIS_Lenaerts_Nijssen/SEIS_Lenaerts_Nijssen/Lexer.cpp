@@ -84,7 +84,7 @@ Token Lexer::extractNumber()
 		result.append(1, bytestream->readByte());
 
 	}
-	return Token(TypeOfToken::Number, result);
+	return Token(TypeOfToken::Number, atoi( result.c_str()) );
 
 }
 

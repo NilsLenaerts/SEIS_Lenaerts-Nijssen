@@ -42,7 +42,7 @@ public:
 	}
 	static bool hasParam(InstructionSet inst) {
 		return !(inst == InstructionSet::IF  || inst == InstructionSet::ELSE ||
-				 inst == InstructionSet::end || inst == InstructionSet::unreachable);
+				 inst == InstructionSet::end || inst == InstructionSet::unreachable || istype(inst));
 	}
 
 	static bool isCalc(InstructionSet inst) {
@@ -54,14 +54,26 @@ public:
 
 
 	Instruction(InstructionType instructionType, uint32_t opcode, int depth, uint32_t param=0);
+	Instruction(InstructionType instructionType, uint32_t opcode, int depth, std::string param);
 	InstructionType getInstructionType()const;
 	int getDepth() const;
 	uint32_t getOpcode() const;
 	uint32_t getParam()const;
+	std::string getStringValue()const;
 private:
-	uint32_t param=0;
+	std::variant<
+		uint32_t,
+		std::string> param=0;
 	int depth=0;
 	uint32_t opcode;
+
 	InstructionType instructionType;
+
+	static  bool istype(const InstructionSet &inst) {
+		return (inst == InstructionSet::i32 || inst == InstructionSet::i64 ||
+				inst == InstructionSet::f32 || inst == InstructionSet::v128
+			);
+	}
+
 
 };
