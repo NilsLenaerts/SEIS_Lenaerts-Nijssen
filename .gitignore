@@ -1,4 +1,6 @@
 *.user
 *.filters
-*/Debug/
-.vs/
+Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Debug/*
+Project/SEIS_Lenaerts_Nijssen/Debug/*
+
+Project/SEIS_Lenaerts_NIjssen/.vs/*
