@@ -6,10 +6,6 @@ enum class InstructionType {
 	CONST,CALC,
 	WITHPARAM,WITHOUTPARAM,
 };
-
-
-
-
 class Instruction {
 public:
 	static InstructionSet getInstruction(std::string inst) {

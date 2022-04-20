@@ -1,0 +1,10 @@
+﻿  Bytestream.cpp
+  SEIS_Lenaerts_Nijssen.cpp
+  Lexer.cpp
+C:\Users\lowie\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\SEIS_Lenaerts_Nijssen\Character.h(31,1): warning C4551: function call missing argument list
+  Parser.cpp
+  Instruction.cpp
+  Compiler.cpp
+  Generating Code...
+C:\Users\lowie\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\SEIS_Lenaerts_Nijssen\Instruction.h(36): warning C4715: 'Instruction::getInstruction': not all control paths return a value
+  SEIS_Lenaerts_Nijssen.vcxproj -> C:\Users\lowie\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\x64\Debug\SEIS_Lenaerts_Nijssen.exe

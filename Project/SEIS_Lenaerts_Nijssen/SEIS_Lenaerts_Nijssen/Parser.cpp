@@ -1,14 +1,26 @@
 #include "Parser.h"
 
-Parser::Parser(Lexer lexer) : lexer{lexer}{}
+Parser::Parser(Lexer lexer) : lexer{lexer}{
+	try {
+		parse();
+	}
+	catch (int nr) {
+		if (nr == 1) {
+			std::exit(0);
+		}
+		
+	}
+}
 
 std::vector<Instruction> Parser::parse()
 {
 	std::vector<Token> tokens = lexer.getTokens();
 	std::vector<Instruction> result = std::vector<Instruction>();
-	//depth is to indicate how many blocks deep we are (in the end it should end back at 0 else we don't close functions or we close things that don't exist)
-	int depth{ 0 };
+	//depth is to indicate how many blocks deep we are 
+	//(in the end it should end back at 0 else we don't close functions or we close things that don't exist)
+	// this is done by the exception at the end
 
+	int depth{ 0 };
 
 	for (int i = 0; i < tokens.size(); ++i) {
 		Token token = tokens[i];
@@ -45,7 +57,7 @@ std::vector<Instruction> Parser::parse()
 
 	if (depth != 0){
 		//TODO: We should not return the result here but an error since we have an invalid depth (opens brackets that don't close or reverse)
-
+		throw 1;
 	}
 	return result;
 }
