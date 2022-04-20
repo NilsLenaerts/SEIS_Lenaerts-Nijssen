@@ -1,5 +1,19 @@
 #include "Compiler.h"
 
+Compiler::Compiler(std::vector<Instruction> instructions) : instructions{ instructions } {}
+
+
+Bytestream Compiler::compile() {
+	//todo --> check depth of instruction aswell since we can't fold over different depths
+	// we also need to be aware of that because we can't use variables that are deeper than our current depth
+	foldConstants();
+	//todo --> functionInLine completion
+	functionInline();
+	//todo --> convertion to WASM
+}
+
+
+
 void Compiler::foldConstants()
 {
 	bool didfold{ true };
@@ -7,22 +21,27 @@ void Compiler::foldConstants()
 		didfold = false;
 		for (int i = 0; i < instructions.size(); ++i) {
 			Instruction inst = instructions[i];
-			
+			int depthOfinst1{inst.getDepth() };
 			if (inst.getInstructionType() == InstructionType::CONST) {
 				//we need to check if not out of range 
 				int j = i + 1;
-				if (instructions[j].getInstructionType() == InstructionType::CONST) {
-					if (instructions[j+1].getInstructionType() == InstructionType::CALC) {
-						//here we have to fold
-						fold(i, j, j+1);
-						didfold = true;
+				int depthOfinst2{instructions[j].getDepth()};
+				int depthOfinst3{instructions[j + 1].getDepth()};
+
+				//Here we enforce that all instructions considered for folding are on the same depth
+				if (depthOfinst1 <= depthOfinst2 && depthOfinst1 <= depthOfinst3 && depthOfinst2 <= depthOfinst3) {
+					if (instructions[j].getInstructionType() == InstructionType::CONST) {
+						if (instructions[j + 1].getInstructionType() == InstructionType::CALC) {
+							//here we have to fold
+							fold(i, j, j + 1);
+							didfold = true;
+						}
 					}
-			
 				}
 
-
+				
 			}
-	}
+		}
 	}
 }
 
