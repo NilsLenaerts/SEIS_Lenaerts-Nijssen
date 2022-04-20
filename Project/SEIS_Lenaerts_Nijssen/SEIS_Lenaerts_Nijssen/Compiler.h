@@ -5,6 +5,8 @@
 #include "Bytestream.h"
 #include "InstructionSet.h"
 #include <unordered_map>
+
+#include <iostream>
 class Compiler {
 private:
 	std::vector<Instruction> instructions;

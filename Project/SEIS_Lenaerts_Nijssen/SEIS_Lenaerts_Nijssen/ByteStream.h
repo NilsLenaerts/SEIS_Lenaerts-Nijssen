@@ -5,6 +5,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <iterator>
+
+#include <iostream>
 #include <vector>
 class Bytestream {
 

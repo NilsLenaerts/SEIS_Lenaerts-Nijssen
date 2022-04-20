@@ -2,6 +2,10 @@
 #include <vector>
 #include "Token.h"
 #include "ByteStream.h"
+
+#include <iostream>
+#include <vector>
+#include <string>
 class Lexer {
 
 private:
