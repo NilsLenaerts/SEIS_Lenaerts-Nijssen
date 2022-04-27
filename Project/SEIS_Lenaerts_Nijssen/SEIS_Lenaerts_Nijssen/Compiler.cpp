@@ -13,7 +13,7 @@ Bytestream Compiler::compile() {
 	functionInline();
 	//todo --> convertion to WASM
 
-	//this is to return our result
+	//this is to return our result. but we should make something of our bytes vector
 	Bytestream stream{ bytes };
 	return stream;
 }
@@ -82,17 +82,73 @@ void Compiler::fold(const int& posConst1, const int& posConst2, const int& posCa
 
 void Compiler::functionInline()
 {
-	std::unordered_map<std::string, int> functions{}; //in this the string is to indicate the function name and the int to count the amount of times we call it
+	std::unordered_map< std::string, int> functionCounterTranslation{};		//the string is the function name ($foo for example) the value is the index corresponding with it.
+	std::unordered_map<int, int> functions{}; //first int is the function index the second is the amount of times it was called
 	int functioncounter{ 0 };
 	//to start off we need to define the functions and how many times they are called, then if a function is called less than X times we inline it.
 	for (Instruction instr : instructions) {
 		if (instr.getOpcode() == (uint32_t) InstructionSet::function) {
 
-			functions.insert(std::pair<std::string, int>{"nameOfFunction", 0});
+			//if we gave the function a name
+			if (instr.getStringValue() != "") {
+				functionCounterTranslation.insert(std::pair<std::string, int>{instr.getStringValue(), functioncounter});
+				functions.insert(std::pair<int, int>{functioncounter, 0});
+				instr.setParam(functioncounter);	//here we replace the alias since it's useless after compilation so we might aswell get rid of it already
+				++functioncounter;
+			}
+			//if the function has no name. 
+			else {
+				functions.insert(std::pair<int, int>{instr.getParam(), 0});
+				++functioncounter;
+			}
 			//in here we got a function to be created
-			//!todo insert function into map
+		
+		}
+		//if we get the opcode corresponding with call --> we add 1 to the counter.
+		else if (instr.getOpcode() == (uint32_t)InstructionSet::call) {
+			if (instr.getStringValue() != "") {
+				int functionindex = functionCounterTranslation.at(instr.getStringValue());
+				instr.setParam(functionindex);	//here we replace the alias since it's useless after compilation so we might aswell get rid of it already
+				++(functions.at(functionindex));
+			}
+			else {
+				++(functions.at(instr.getParam()));
+			}
 		}
 		//Check for function calls here --> up counter if so. throw exception if function doens't exist
-	
 	}
+	for (std::pair<int, int> function : functions) {
+		if (function.second == 1) {
+			//we should inline here
+			std::vector<Instruction> functionInstructions {};	//these are the instructions that will get inlined at the call
+			int depth = -1;
+			bool isPartOfFunction{ false };
+
+			for (int i = 0; i < instructions.size(); i++) {
+				Instruction instr= instructions.at(i);
+				if (isPartOfFunction && instr.getDepth() > depth) {
+					functionInstructions.push_back(instr);
+				}
+				else if (instr.getOpcode() == (uint32_t)InstructionSet::function) {
+					if (instr.getParam() == function.first) {	//here we got the function start
+						isPartOfFunction = true;
+						depth = instr.getDepth();	//we need the depth as we need to know what is part of our func block
+					}
+				}
+				else if (instr.getOpcode() == (uint32_t)InstructionSet::call) {
+					if (instr.getParam() == function.first) {
+						//this means we got the call
+						instructions.erase(instructions.begin() + (i-1));
+						//add all the function parts to the place where the call is located
+						instructions.insert((instructions.begin()+ (i - 1)), functionInstructions.begin(),functionInstructions.end());
+						
+					}
+				}
+			
+			}
+			
+		}
+	}
+	//now we check if a function was only  called once --> if so we inline the function
+
 }

@@ -59,6 +59,7 @@ public:
 	int getDepth() const;
 	uint32_t getOpcode() const;
 	uint32_t getParam()const;
+	void setParam(uint32_t parameter);
 	std::string getStringValue()const;
 private:
 	std::variant<

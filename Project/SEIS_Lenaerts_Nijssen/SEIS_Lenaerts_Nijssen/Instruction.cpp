@@ -26,6 +26,10 @@ std::string Instruction::getStringValue()const
 
 }
 
+void Instruction::setParam(uint32_t parameter) {
+	param = parameter;
+}
+
 uint32_t Instruction::getParam()const {
 	if (auto result = std::get_if<uint32_t>(&param)) {
 		return std::get<uint32_t>(param);
