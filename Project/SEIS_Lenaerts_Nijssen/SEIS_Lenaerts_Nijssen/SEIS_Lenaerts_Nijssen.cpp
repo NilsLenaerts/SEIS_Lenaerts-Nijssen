@@ -9,8 +9,11 @@
 
 void compileWATfile(std::string location) {
     Lexer lexer{ location };
+    std::cout << "Lexing done \n\n\n\n";
     Parser parser{ lexer };
+    std::cout << "Parsing done \n\n\n\n";
     Compiler compiler{ parser.parse() };
+    std::cout << "Compiled \n\n\n\n";
 
 }
 
@@ -19,7 +22,7 @@ int main()
 {
     std::cout << "Hello World!\n";
     std::string location{"example.txt"}; //!todo make this an actual file
-
+    
     compileWATfile(location);
 
 }

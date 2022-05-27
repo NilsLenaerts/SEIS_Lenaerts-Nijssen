@@ -33,6 +33,12 @@ public:
 		if (inst == "func") return InstructionSet::func;
 		if (inst == "end") return InstructionSet::end;
 		if (inst == "call") return InstructionSet::call;
+
+
+		if (inst == "export") return InstructionSet::Export;
+		if (inst == "param") return InstructionSet::param;
+		if (inst == "module") return InstructionSet::Module;
+		if (inst == "result") return InstructionSet::result;
 	}
 
 	static bool isConst(InstructionSet instruction) {
@@ -51,7 +57,11 @@ public:
 				inst == InstructionSet::i32div_u);
 	}
 
-
+	static  bool istype(const InstructionSet& inst) {
+		return (inst == InstructionSet::i32 || inst == InstructionSet::i64 ||
+			inst == InstructionSet::f32 || inst == InstructionSet::v128
+			);
+	}
 
 	Instruction(InstructionType instructionType, uint32_t opcode, int depth, uint32_t param=0);
 	Instruction(InstructionType instructionType, uint32_t opcode, int depth, std::string param);
@@ -70,11 +80,7 @@ private:
 
 	InstructionType instructionType;
 
-	static  bool istype(const InstructionSet &inst) {
-		return (inst == InstructionSet::i32 || inst == InstructionSet::i64 ||
-				inst == InstructionSet::f32 || inst == InstructionSet::v128
-			);
-	}
+	
 
 
 };

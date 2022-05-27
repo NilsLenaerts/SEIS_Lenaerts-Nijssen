@@ -9,6 +9,9 @@ enum class InstructionSet :int{
 	/*SECTIONS*/
 	custom = 0x00, type = 0x01, import = 0x02, function = 0x03, table = 0x04, memory = 0x05, global = 0x06,
 	Export = 0x07, start = 0x08, element = 0x09, code = 0x0a, data = 0x0b, datacount = 0x0c,
+
+	param=0x13,result=0x14, Module=0x12,
+
 	/*OPERATIONS*/
 	i32add = 0x6A, i32sub = 0x6B, i32mul = 0x6c, i32div_s = 0x6D, i32div_u = 0x6E, i32const = 0x41,
 
@@ -20,4 +23,5 @@ enum class InstructionSet :int{
 
 	/*Other*/
 	loop = 0x03, block = 0x02,
+
 };

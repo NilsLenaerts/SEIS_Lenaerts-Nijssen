@@ -19,7 +19,7 @@ void Parser::printParser()
 	std::cout << "\n\n" <<"Parser:" << "\n";
 	for (Instruction inst : instructions) {
 		
-		std::cout << inst.getOpcode() << "\t";
+		std::cout <<std::hex << inst.getOpcode() << "\t";
 		if (inst.getInstructionType() != InstructionType::WITHOUTPARAM) {
 			std::cout << inst.getParam();
 		}
@@ -90,6 +90,32 @@ std::vector<Instruction> Parser::parse()
 						++functionCounter;
 						instructions.push_back(inst);
 						
+					} else if (operation == InstructionSet::Module){
+						Instruction inst{ InstructionType::WITHPARAM, (uint32_t)operation, depth,  0};
+						instructions.push_back(inst);
+					}
+					else if (operation == InstructionSet::Export) {
+						Instruction inst{ InstructionType::WITHPARAM, (uint32_t)operation, depth, tokens[++i].getStringValue() };
+						std::cout << tokens[i].getStringValue() << "\t is consumed by Export" << "\n";
+						instructions.push_back(inst);
+					}
+					else if (operation == InstructionSet::param || operation == InstructionSet::result) {
+						
+						uint32_t count{ 1 };
+						bool isParam = true;
+						while (isParam) {
+							int spot = count + i;
+							InstructionSet operation2 = Instruction::getInstruction(tokens[spot].getStringValue());
+							if (Instruction::istype(operation2)) {
+								++count;
+							}
+							else {
+								isParam = false;
+								Instruction inst{ InstructionType::WITHPARAM, (uint32_t)operation, depth, (count-1) };
+								std::cout << "has: " << (count-1) << " types\n";
+								instructions.push_back(inst);
+							}
+						}
 					}
 					//for other functions with parameters
 					else {
@@ -110,7 +136,9 @@ std::vector<Instruction> Parser::parse()
 
 	if (depth != 0){
 		//TODO: We should not return the result here but an error since we have an invalid depth (opens brackets that don't close or reverse)
+		std::cout << " Depth error: " << depth << "\n";
 		throw 1;
+		
 	}
 	return instructions;
 }

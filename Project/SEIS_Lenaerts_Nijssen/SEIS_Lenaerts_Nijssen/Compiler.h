@@ -15,6 +15,8 @@ private:
 	void foldConstants(); //folds things that are constant like sum of 2 constants
 	void fold(const int &posConst1,const int &posConst2,const int &posCalc);
 	void functionInline();
+	void printInstr();
+	Bytestream convertFunctionsToWASM();
 public:
 	Compiler(std::vector<Instruction> instructions);
 	Bytestream compile();
