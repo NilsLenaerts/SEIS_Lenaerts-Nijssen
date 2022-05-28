@@ -153,9 +153,83 @@ instructions.erase(instructions.begin() <span style="color: #666666">+</span> po
                                <hr class="tm-hr-primary tm-mb-45">
                             <p>
                                 The second optimisation is function inlining. This inserts functions that are only called once on the place of a call function and it removes the overhead that it comes with. This ensures a faster runtime whilst not making the program longer than needed. To achieve this, first the amount of times each function is called is calculated. If it is only called once inlining will be done.
-                                inlining itself means that the call and the preperation of parameters is removed from the place where it is called. The function body will be placed at the spot of where the call was situated. In case the function was exported inlining will be dissabled for that function as it needs to be accessable. The code can be found <a href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/blob/main/Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Compiler.cpp" target="_blank" class="tm-external-link">here</a>.
+                                inlining itself means that the call and the preperation of parameters is removed from the place where it is called. The function body will be placed at the spot of where the call was situated. In case the function was exported inlining will be dissabled for that function as it needs to be accessable. The code can be found <a href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/blob/main/Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Compiler.cpp" target="_blank" class="tm-external-link">here</a>. 
                             </p>
              </div>
+             <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Compiling</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                                The final part of the compiler is the translation from instrucions to WASM. The WASM order is not the same as the WAT that was started of with. In WASM first the amount (and definition) of types and sections. below is the same example of binary as in the bytestream section is shown here. This displays the diffrent sections in WASM. In essence we first define all functions and types after that the function bodies follow. The code can be found <a href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/blob/main/Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Compiler.cpp" target="_blank" class="tm-external-link">here</a>. The end result is a bytestream that should be usable by the WASM virtual machine.
+                            </p>
+                            <div style=" overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;background: #f0f0f0;">
+<pre>
+    <code>
+0000000: 0061 736d    ; WASM_BINARY_MAGIC
+0000004: 0100 0000    ; WASM_BINARY_VERSION
+; section "Type" (1)
+0000008: 01           ; section code
+0000009: 00           ; section size (guess)
+000000a: 01           ; num types
+; func type 0
+000000b: 60           ; func
+000000c: 02           ; num params
+000000d: 7f           ; i32
+000000e: 7f           ; i32
+000000f: 01           ; num results
+0000010: 7f           ; i32
+0000009: 07           ; FIXUP section size
+; section "Function" (3)
+0000011: 03           ; section code
+0000012: 00           ; section size (guess)
+0000013: 01           ; num functions
+0000014: 00           ; function 0 signature index
+0000012: 02           ; FIXUP section size
+; section "Export" (7)
+0000015: 07           ; section code
+0000016: 00           ; section size (guess)
+0000017: 01           ; num exports
+0000018: 06           ; string length
+0000019: 6164 6454 776f      addTwo  ; export name
+000001f: 00           ; export kind
+0000020: 00           ; export func index
+0000016: 0a           ; FIXUP section size
+; section "Code" (10)
+0000021: 0a           ; section code
+0000022: 00           ; section size (guess)
+0000023: 01           ; num functions
+; function body 0
+0000024: 00           ; func body size (guess)
+0000025: 00           ; local decl count
+0000026: 20           ; local.get
+0000027: 00           ; local index
+0000028: 20           ; local.get
+0000029: 01           ; local index
+000002a: 6a           ; i32.add
+000002b: 0b           ; end
+0000024: 07           ; FIXUP func body size
+0000022: 09           ; FIXUP section size
+; section "name"
+000002c: 00           ; section code
+000002d: 00           ; section size (guess)
+000002e: 04           ; string length
+000002f: 6e61 6d65    name ; custom section name
+0000033: 02           ; local name type
+0000034: 00           ; subsection size (guess)
+0000035: 01           ; num functions
+0000036: 00           ; function index
+0000037: 02           ; num locals
+0000038: 00           ; local index
+0000039: 00           ; string length
+000003a: 01           ; local index
+000003b: 00           ; string length
+0000034: 07           ; FIXUP subsection size
+000002d: 0e           ; FIXUP section size
+    </code>
+</pre>
+                                </div>
+             </div>
+
 
 <!-- -->
 
