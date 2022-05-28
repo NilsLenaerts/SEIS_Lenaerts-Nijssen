@@ -13,7 +13,7 @@ void compileWATfile(std::string location) {
     Parser parser{ lexer };
     std::cout << "Parsing done \n\n\n\n";
     Compiler compiler{ parser.parse() };
-    std::cout << "Compiled \n\n\n\n";
+    std::cout << "Compiling done \n\n\n\n";
 
 }
 

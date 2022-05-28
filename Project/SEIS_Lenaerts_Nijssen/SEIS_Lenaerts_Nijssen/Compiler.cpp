@@ -18,6 +18,7 @@ Bytestream Compiler::compile() {
 	printInstr();
 	//todo --> convertion to WASM
 	Bytestream stream{ convertFunctionsToWASM() };
+	std::cout << "Conversion done\n";
 	//this is to return our result. but we should make something of our bytes vector
 	//Bytestream stream{ bytes };
 	return stream;
@@ -257,18 +258,25 @@ Bytestream Compiler::convertFunctionsToWASM()
 			bytes.push_back(instr.getOpcode());
 			++seccounter;
 		}
+		else if (instr.getOpcode() == (uint32_t)InstructionSet::Export){
+			instructions.erase(instructions.begin() + i);//removal of export
+			--i;
+		}
+
 		else if (instr.getOpcode() == (uint32_t)InstructionSet::param|| instr.getOpcode() == (uint32_t)InstructionSet::result){
 			uint32_t param = instr.getParam();
 			++seccounter;
 			std::cout <<std::hex << instr.getParam() << "\n";
 			bytes.push_back(instr.getParam());
+			instructions.erase(instructions.begin() + i);
 			for (uint32_t k = 1; k <= param; ++k) {
-				Instruction ins{ instructions.at(i+k) };
+				Instruction ins{ instructions.at(i) };
+				instructions.erase(instructions.begin() + i);
 				std::cout << ins.getOpcode() << "\n";
 				bytes.push_back(ins.getOpcode());
 				++seccounter;
 			}
-
+			--i;
 		}
 	}
 	//fixup section size
@@ -295,6 +303,7 @@ Bytestream Compiler::convertFunctionsToWASM()
 	std::cout << std::hex << seccounter << "\n\n";
 	bytes.push_back(seccounter);
 
+	
 	std::cout << "Code (10) \n";
 	std::cout << "a \n";
 	std::cout << "0 \n";
@@ -303,18 +312,36 @@ Bytestream Compiler::convertFunctionsToWASM()
 	std::cout << std::hex << seccounter-1 << "\n\n";
 	bytes.push_back(seccounter-1);
 
-	std::cout << "0 \n";
-	std::cout << "0 \n";
-	bytes.push_back(0);
-	bytes.push_back(0);
-	bool inFunc = false;
+	
+	seccounter = 0;
 	for (int id : funcIds) {
+		std::cout << "0 \n";
+		std::cout << "0 \n";
+		bytes.push_back(0);
+		bytes.push_back(0);
+		bool inFunc = false;
+		int bodyCounter{ 1 };
 		for (Instruction instr : instructions) {
 			if (inFunc && instr.getOpcode() != (uint32_t)InstructionSet::func) {
-			
+				std::cout << instr.getOpcode() << "\n";
+				++bodyCounter;
+				bytes.push_back(instr.getOpcode());
+				if (instr.getInstructionType() == InstructionType::WITHPARAM) {
+					std::cout << instr.getParam() << "\n";
+					bytes.push_back(instr.getParam());
+					++bodyCounter;
+				}	
 			}
+			else if (inFunc && instr.getOpcode() != (uint32_t)InstructionSet::func) {
+				inFunc = false;
+				std::cout << "b \n";
+				bytes.push_back(11);
+				++bodyCounter;
+			}
+
 			else {
 				inFunc = false;
+				
 			}
 
 			if (instr.getOpcode() == (uint32_t)InstructionSet::func) {
@@ -323,14 +350,21 @@ Bytestream Compiler::convertFunctionsToWASM()
 				}
 			}
 		}
+		if (inFunc) {//end function if module ends and function not yet closed
+			std::cout << "b \n";
+			bytes.push_back(11);
+			++bodyCounter;
+		}
+		//fixup func body size
+		std::cout << bodyCounter << "\n";
+		bytes.push_back(bodyCounter);
+		seccounter += bodyCounter;
 	}
+	//fixup section size
+	std::cout << seccounter << "\n";
+	bytes.push_back(seccounter);
 
 
-
-	std::cout << "Printing bytes\n";
-	for (uint8_t b : bytes) {
-		std::cout<<std::hex << (int) b << " \n";
-	}
 
 	Bytestream bytestreamWASM{ bytes };
 	return bytestreamWASM;
