@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>SEIS_LENAERTS_NIJSSEN</title>
-	<link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
-	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEIS_LENAERTS_NIJSSEN</title>
+    <link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/templatemo-xtra-blog.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
@@ -19,7 +19,7 @@ https://templatemo.com/tm-553-xtra-blog
 -->
 </head>
 <body>
-	<header class="tm-header" id="tm-header">
+    <header class="tm-header" id="tm-header">
         <div class="tm-header-wrapper">
             <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -65,86 +65,102 @@ https://templatemo.com/tm-553-xtra-blog
            
         </div>
     </header>
-    <div class="container-fluid">
-        <main class="tm-main">
-           
+     <div class="container-fluid">
+        <main class="tm-main"> 
             <div class="row tm-row">
-                <div class="col-12">
-                    <hr class="tm-hr-primary tm-mb-55">
-                    <!-- Video player 1422x800 -->
-                    <video width="954" height="535" controls class="tm-mb-40">
-                        <source src="video/wheat-field.mp4" type="video/mp4">							  
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            <div class="row tm-row">
-                <div class="col-lg-8 tm-post-col">
+                <div class=" tm-post-col">
                     <div class="tm-post-full">                    
                         <div class="mb-4">
-                            <h2 class="pt-2 tm-color-primary tm-post-title">Single Post of Xtra Blog HTML Template</h2>
-                            <p class="tm-mb-40">June 16, 2020 posted by Admin Nat</p>
+                            <h2 class="pt-2 tm-color-primary tm-post-title">The Parser</h2>
+                            <p class="tm-mb-40">Last edit: May 28, 2022</p>
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Introduction to the Parser</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
                             <p>
-                                This is a description of the video post. You can also have an image instead of
-                                the video. You can free download 
-                                <a rel="nofollow" href="https://templatemo.com/tm-553-xtra-blog" target="_blank">Xtra Blog Template</a> 
-                                from TemplateMo website. Phasellus maximus quis est sit amet maximus. Vestibulum vel rutrum
-                                lorem, ac sodales augue. Aliquam erat volutpat. Duis lectus orci, blandit in arcu
-                                est, elementum tincidunt lectus. Praesent vel justo tempor, varius lacus a,
-                        pharetra lacus. </p>
-                            <p>
-                                Duis pretium efficitur nunc. Mauris vehicula nibh nisi. Curabitur gravida neque
-                                dignissim, aliquet nulla sed, condimentum nulla. Pellentesque id venenatis
-                                quam, id cursus velit. Fusce semper tortor ac metus iaculis varius. Praesent
-                                aliquam ex vel lectus ornare tristique. Nunc et eros quis enim feugiat tincidunt
-                                et vitae dui.
-                            </p>
-                            <span class="d-block text-right tm-color-primary">Creative . Design . Business</span>
-                        </div>
-                        
-                        <!-- Comments -->
-                        <div>
-                            <h2 class="tm-color-primary tm-post-title">Comments</h2>
-                            <hr class="tm-hr-primary tm-mb-45">
-                            <div class="tm-comment tm-mb-45">
-                                <figure class="tm-comment-figure">
-                                    <img src="img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                    <figcaption class="tm-color-primary text-center">Mark Sonny</figcaption>
-                                </figure>
-                                <div>
-                                    <p>
-                                        Praesent aliquam ex vel lectus ornare tritique. Nunc et eros
-                                        quis enim feugiat tincidunt et vitae dui. Nullam consectetur
-                                        justo ac ex laoreet rhoncus. Nunc id leo pretium, faucibus 
-                                        sapien vel, euismod turpis.
+                                The <a href="lexer.html" target="_blank" class="tm-external-link"> previous </a>
+                                post discussed the role of a lexer within the compiler. This part goes into the parser. This converts the tokens of a lexer into instructions. An instruction groups the command with the parameter in case it is required. It also is assigned a depth so that brackets can be removed from the code aswell.
+                             
+                            </p>   
+                            
+                        </div>     
+                    
+                         <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Instruction Types</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p>
+                                   In before the instruction itself is shows, the instructions can be divided into a few types shown in the following enum class.
                                     </p>
-                                    <div class="d-flex justify-content-between">
-                                        <a href="#" class="tm-color-primary">REPLY</a>
-                                        <span class="tm-color-primary">June 14, 2020</span>
-                                    </div>                                                 
-                                </div>                                
-                            </div>
-                            <div class="tm-comment-reply tm-mb-45">
-                                <hr>
-                                <div class="tm-comment">
-                                    <figure class="tm-comment-figure">
-                                        <img src="img/comment-2.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                        <figcaption class="tm-color-primary text-center">Jewel Soft</figcaption>    
-                                    </figure>
-                                    <p>
-                                        Nunc et eros quis enim feugiat tincidunt et vitae dui.
-                                        Nullam consectetur justo ac ex laoreet rhoncus. Nunc
-                                        id leo pretium, faucibus sapien vel, euismod turpis.
-                                    </p>
-                                </div>                                
-                                <span class="d-block text-right tm-color-primary">June 21, 2020</span>
-                            </div>
-                                      
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">enum</span> <span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">InstructionType</span> {
+    CONST,CALC,
+    WITHPARAM,WITHOUTPARAM,
+};
+</pre></div>
+
+                                <p>
+                                   For these instruction types functions are added to determine the type.
+                                </p>
+                                 <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"> <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> <span style="color: #0000FF">isConst</span>(InstructionSet instruction) {
+        <span style="color: #408080; font-style: italic">//extend the () part with &quot;||&quot; if we have more constant instructions</span>
+        <span style="color: #008000; font-weight: bold">return</span>  instruction <span style="color: #666666">==</span> (InstructionSet<span style="color: #666666">::</span>i32const);
+    }
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> <span style="color: #0000FF">hasParam</span>(InstructionSet inst) {
+        <span style="color: #008000; font-weight: bold">return</span> <span style="color: #666666">!</span>(inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>IF  <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>ELSE <span style="color: #666666">||</span>
+                 inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>end <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>unreachable <span style="color: #666666">||</span> istype(inst));
+    }
+    <span style="color: #008000; font-weight: bold">static</span> <span style="color: #B00040">bool</span> <span style="color: #0000FF">isCalc</span>(InstructionSet inst) {
+        <span style="color: #008000; font-weight: bold">return</span> (inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32add <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32sub   <span style="color: #666666">||</span>
+                inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32mul <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32div_s <span style="color: #666666">||</span>
+                inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32div_u);
+    }
+    <span style="color: #008000; font-weight: bold">static</span>  <span style="color: #B00040">bool</span> <span style="color: #0000FF">istype</span>(<span style="color: #008000; font-weight: bold">const</span> InstructionSet<span style="color: #666666">&amp;</span> inst) {
+        <span style="color: #008000; font-weight: bold">return</span> (inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i32 <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>i64 <span style="color: #666666">||</span>
+            inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>f32 <span style="color: #666666">||</span> inst <span style="color: #666666">==</span> InstructionSet<span style="color: #666666">::</span>v128);
+    }
+</pre></div>
+
                         </div>
-                    </div>
-                </div>
-               
+                         <p></p>
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Instructions</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p> 
+                                    Now that the instruction types are clarified let's look at what is contained within the instruction. 
+                                </p>
+<!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">Instruction</span> {
+<span style="color: #A0A000">public:</span> 
+    Instruction(InstructionType instructionType, <span style="color: #B00040">uint32_t</span> opcode, <span style="color: #B00040">int</span> depth, <span style="color: #B00040">uint32_t</span> param<span style="color: #666666">=0</span>);
+    Instruction(InstructionType instructionType, <span style="color: #B00040">uint32_t</span> opcode, <span style="color: #B00040">int</span> depth, std<span style="color: #666666">::</span>string param);
+    InstructionType getInstructionType()<span style="color: #008000; font-weight: bold">const</span>;
+    <span style="color: #B00040">int</span> getDepth() <span style="color: #008000; font-weight: bold">const</span>;
+    <span style="color: #B00040">uint32_t</span> getOpcode() <span style="color: #008000; font-weight: bold">const</span>;
+    <span style="color: #B00040">uint32_t</span> getParam()<span style="color: #008000; font-weight: bold">const</span>;
+    <span style="color: #B00040">void</span> <span style="color: #0000FF">setParam</span>(<span style="color: #B00040">uint32_t</span> parameter);
+    std<span style="color: #666666">::</span>string getStringValue()<span style="color: #008000; font-weight: bold">const</span>;
+<span style="color: #A0A000">private:</span>
+    std<span style="color: #666666">::</span>variant<span style="color: #666666">&lt;</span>
+        <span style="color: #B00040">uint32_t</span>,
+        std<span style="color: #666666">::</span>string<span style="color: #666666">&gt;</span> param<span style="color: #666666">=0</span>;
+    <span style="color: #B00040">int</span> depth<span style="color: #666666">=0</span>;
+    <span style="color: #B00040">uint32_t</span> opcode;
+
+    InstructionType instructionType;
+</pre></div>
+                                <p> 
+                                   As can be seen the instruction keep track of the depth, the opcode and potentially a parameter that is either a unsigned int or a string. The depth is to later determine of this instruction is still part of a block. The opcode is simply a number that identifies a command. 60 for example is a func and 10 a call.<a href="https://webassembly.github.io/spec/core/appendix/index-instructions.html" target="_blank" class="tm-external-link"> this documentation page </a> displays a list of instructions and their opcodes.
+                                </p>
+
+                       </div>
+                        <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Parser</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                                <p> 
+                                   As mentioned in the introduction the parser takes the tokens and converts them into instructions. To achieve this, the parser iterates over all tokens. If the token is a bracket the depth will be increase or decrease by one based on the bracket type. This also serves as an error check since the end depth should be 0.
+                                </p><p> 
+                                   The identifiers are seperated into a few parts previously seen as the instruction types. For calculations (CALC) the instruction is as simple as just having an opcode and no parameter the same goes for commands without a parameter. A CONST will take the next token as it's parameter. This token will not be revisited as it's already used. The same goes for most instrucions with a parameter. The export, does the same but it takes the a string as parameter. Instructions like func and module take a identifier. The call has a parameter corresponding to the id of the called function. Note that aliases are not yet removed in this part and thus the parameter of func and call can be a string. There isn't more to say about the code of the parser. The code implementation can be found <a href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/blob/main/Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Parser.cpp" target="_blank" class="tm-external-link"> here</a>.
+                                </p>
             </div>
+<!-- -->
+
+
 
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
@@ -152,9 +168,6 @@ https://templatemo.com/tm-553-xtra-blog
                     <a href="compiler.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Next</a>
                 </div>
             </div>           
-
-
-
             <footer class="row tm-row">
                 <div class="col-md-6 col-12 tm-color-gray">
                     Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>

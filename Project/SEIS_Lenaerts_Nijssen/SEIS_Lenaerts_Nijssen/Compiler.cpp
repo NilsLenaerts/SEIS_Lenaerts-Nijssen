@@ -50,8 +50,6 @@ void Compiler::foldConstants()
 						}
 					}
 				}
-
-				
 			}
 		}
 	}

@@ -19,7 +19,7 @@ https://templatemo.com/tm-553-xtra-blog
 -->
 </head>
 <body>
-	<header class="tm-header" id="tm-header">
+    <header class="tm-header" id="tm-header">
         <div class="tm-header-wrapper">
             <button class="navbar-toggler" type="button" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -38,7 +38,6 @@ https://templatemo.com/tm-553-xtra-blog
                         <i class="fas fa-pen"></i>
                         ByteStream
                     </a></li>
-                 
                     <li class="tm-nav-item"><a href="virtualmachine.html" class="tm-nav-link">
                         <i class="fas fa-pen"></i>
                         Virtual maching
@@ -47,7 +46,7 @@ https://templatemo.com/tm-553-xtra-blog
                         <i class="fas fa-pen"></i>
                         Lexer
                     </a></li>
-                    <li class="tm-nav-item"><a href="parser.html" class="tm-nav-link">
+                    <li class="tm-nav-item "><a href="parser.html" class="tm-nav-link">
                         <i class="fas fa-pen"></i>
                         Parser
                     </a></li>
@@ -66,103 +65,113 @@ https://templatemo.com/tm-553-xtra-blog
            
         </div>
     </header>
-    <div class="container-fluid">
-        <main class="tm-main">
-           
+     <div class="container-fluid">
+        <main class="tm-main"> 
             <div class="row tm-row">
-                <div class="col-12">
-                    <hr class="tm-hr-primary tm-mb-55">
-                    <!-- Video player 1422x800 -->
-                    <video width="954" height="535" controls class="tm-mb-40">
-                        <source src="video/wheat-field.mp4" type="video/mp4">							  
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            </div>
-            <div class="row tm-row">
-                <div class="col-lg-8 tm-post-col">
+                <div class=" tm-post-col">
                     <div class="tm-post-full">                    
                         <div class="mb-4">
-                            <h2 class="pt-2 tm-color-primary tm-post-title">Single Post of Xtra Blog HTML Template</h2>
-                            <p class="tm-mb-40">June 16, 2020 posted by Admin Nat</p>
+                            <h2 class="pt-2 tm-color-primary tm-post-title">The Compiler</h2>
+                            <p class="tm-mb-40">Last edit: May 28, 2022</p>
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Introduction to the Compiler</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
                             <p>
-                                This is a description of the video post. You can also have an image instead of
-                                the video. You can free download 
-                                <a rel="nofollow" href="https://templatemo.com/tm-553-xtra-blog" target="_blank">Xtra Blog Template</a> 
-                                from TemplateMo website. Phasellus maximus quis est sit amet maximus. Vestibulum vel rutrum
-                                lorem, ac sodales augue. Aliquam erat volutpat. Duis lectus orci, blandit in arcu
-                                est, elementum tincidunt lectus. Praesent vel justo tempor, varius lacus a,
-                        pharetra lacus. </p>
+                                The <a href="parser.html" target="_blank" class="tm-external-link"> previous </a>
+                                post discussed the parser, this ended off with a vector containing instructions with sometimes a parameter attached. The compiler in it's most basic form can be seen as a translater. In this case between WAT and WASM. But it also does code optimisation so that the WASM can run optimally. This compiler uses <a href="https://www.ibm.com/support/pages/what-does-it-mean-inline-function-and-how-does-it-affect-program" target="_blank" class="tm-external-link"> function inlining  </a>and <a href="https://en.wikipedia.org/wiki/Constant_folding" target="_blank" class="tm-external-link"> constant folding </a>.
+                            </p>   
+                            
+                        </div>     
+                 <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Constant folding</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
                             <p>
-                                Duis pretium efficitur nunc. Mauris vehicula nibh nisi. Curabitur gravida neque
-                                dignissim, aliquet nulla sed, condimentum nulla. Pellentesque id venenatis
-                                quam, id cursus velit. Fusce semper tortor ac metus iaculis varius. Praesent
-                                aliquam ex vel lectus ornare tristique. Nunc et eros quis enim feugiat tincidunt
-                                et vitae dui.
+                                The code below shows the implementation for constant folding. This simply checks if a calculation is done with two constants, we can replace the calculation with a diffrent constant that is equal to the result. If a fold occured a repetition of the function is required as new folding possibilities may arrise.
                             </p>
-                            <span class="d-block text-right tm-color-primary">Creative . Design . Business</span>
-                        </div>
-                        
-                        <!-- Comments -->
-                        <div>
-                            <h2 class="tm-color-primary tm-post-title">Comments</h2>
-                            <hr class="tm-hr-primary tm-mb-45">
-                            <div class="tm-comment tm-mb-45">
-                                <figure class="tm-comment-figure">
-                                    <img src="img/comment-1.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                    <figcaption class="tm-color-primary text-center">Mark Sonny</figcaption>
-                                </figure>
-                                <div>
-                                    <p>
-                                        Praesent aliquam ex vel lectus ornare tritique. Nunc et eros
-                                        quis enim feugiat tincidunt et vitae dui. Nullam consectetur
-                                        justo ac ex laoreet rhoncus. Nunc id leo pretium, faucibus 
-                                        sapien vel, euismod turpis.
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <a href="#" class="tm-color-primary">REPLY</a>
-                                        <span class="tm-color-primary">June 14, 2020</span>
-                                    </div>                                                 
-                                </div>                                
-                            </div>
-                            <div class="tm-comment-reply tm-mb-45">
-                                <hr>
-                                <div class="tm-comment">
-                                    <figure class="tm-comment-figure">
-                                        <img src="img/comment-2.jpg" alt="Image" class="mb-2 rounded-circle img-thumbnail">
-                                        <figcaption class="tm-color-primary text-center">Jewel Soft</figcaption>    
-                                    </figure>
-                                    <p>
-                                        Nunc et eros quis enim feugiat tincidunt et vitae dui.
-                                        Nullam consectetur justo ac ex laoreet rhoncus. Nunc
-                                        id leo pretium, faucibus sapien vel, euismod turpis.
-                                    </p>
-                                </div>                                
-                                <span class="d-block text-right tm-color-primary">June 21, 2020</span>
-                            </div>
-                                      
-                        </div>
-                    </div>
-                </div>
-               
-            </div>
+                            <!-- HTML generated using hilite.me --><div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .1em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #B00040">void</span> Compiler<span style="color: #666666">::</span>foldConstants()
+{
+    <span style="color: #B00040">bool</span> didfold{ <span style="color: #008000">true</span> };
+    <span style="color: #008000; font-weight: bold">while</span> (didfold) {
+        didfold <span style="color: #666666">=</span> <span style="color: #008000">false</span>;
+        <span style="color: #008000; font-weight: bold">for</span> (<span style="color: #B00040">int</span> i <span style="color: #666666">=</span> <span style="color: #666666">0</span>; i <span style="color: #666666">&lt;</span> instructions.size(); <span style="color: #666666">++</span>i) {
+            Instruction inst <span style="color: #666666">=</span> instructions[i];
+            <span style="color: #B00040">int</span> depthOfinst1{inst.getDepth() };
+            <span style="color: #008000; font-weight: bold">if</span> (inst.getInstructionType() <span style="color: #666666">==</span> InstructionType<span style="color: #666666">::</span>CONST) {
+                
+                <span style="color: #B00040">int</span> j <span style="color: #666666">=</span> i <span style="color: #666666">+</span> <span style="color: #666666">1</span>;
+                <span style="color: #B00040">int</span> depthOfinst2{instructions[j].getDepth()};
+                <span style="color: #B00040">int</span> depthOfinst3{instructions[j <span style="color: #666666">+</span> <span style="color: #666666">1</span>].getDepth()};
+
+                
+                <span style="color: #008000; font-weight: bold">if</span> (depthOfinst1 <span style="color: #666666">&lt;=</span> depthOfinst2 <span style="color: #666666">&amp;&amp;</span> depthOfinst1 <span style="color: #666666">&lt;=</span> depthOfinst3 <span style="color: #666666">&amp;&amp;</span> depthOfinst2 <span style="color: #666666">&lt;=</span> depthOfinst3) {
+                    <span style="color: #008000; font-weight: bold">if</span> (instructions[j].getInstructionType() <span style="color: #666666">==</span> InstructionType<span style="color: #666666">::</span>CONST) {
+                        <span style="color: #008000; font-weight: bold">if</span> (instructions[j <span style="color: #666666">+</span> <span style="color: #666666">1</span>].getInstructionType() <span style="color: #666666">==</span> InstructionType<span style="color: #666666">::</span>CALC) {
+                fold(i, j, j <span style="color: #666666">+</span> <span style="color: #666666">1</span>);
+                            didfold <span style="color: #666666">=</span> <span style="color: #008000">true</span>;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+<span style="color: #B00040">void</span> Compiler<span style="color: #666666">::</span>fold(<span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">int</span><span style="color: #666666">&amp;</span> posConst1, <span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">int</span><span style="color: #666666">&amp;</span> posConst2, <span style="color: #008000; font-weight: bold">const</span> <span style="color: #B00040">int</span><span style="color: #666666">&amp;</span> posCalc)
+{
+    <span style="color: #B00040">uint32_t</span> result <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+    Instruction calculation <span style="color: #666666">=</span> instructions[posCalc];
+    <span style="color: #B00040">uint32_t</span> opcode <span style="color: #666666">=</span> calculation.getOpcode();
+
+    <span style="color: #008000; font-weight: bold">if</span> (opcode <span style="color: #666666">==</span> (<span style="color: #B00040">uint32_t</span>)InstructionSet<span style="color: #666666">::</span>i32add) {
+        result <span style="color: #666666">=</span> instructions[posConst1].getParam() <span style="color: #666666">+</span> instructions[posConst2].getParam();
+    }
+    <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (opcode <span style="color: #666666">==</span> (<span style="color: #B00040">uint32_t</span>)InstructionSet<span style="color: #666666">::</span>i32sub) {
+        result <span style="color: #666666">=</span> instructions[posConst1].getParam() <span style="color: #666666">-</span> instructions[posConst2].getParam();
+    }
+    <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (opcode <span style="color: #666666">==</span> (<span style="color: #B00040">uint32_t</span>)InstructionSet<span style="color: #666666">::</span>i32mul) {
+        result <span style="color: #666666">=</span> instructions[posConst1].getParam() <span style="color: #666666">*</span> instructions[posConst2].getParam();
+    }
+    <span style="color: #008000; font-weight: bold">else</span> <span style="color: #008000; font-weight: bold">if</span> (opcode <span style="color: #666666">==</span> (<span style="color: #B00040">uint32_t</span>)InstructionSet<span style="color: #666666">::</span>i32div_u) {
+        result <span style="color: #666666">=</span> instructions[posConst1].getParam() <span style="color: #666666">/</span> instructions[posConst2].getParam();
+    }
+
+    Instruction inst{ InstructionType<span style="color: #666666">::</span>CONST, (<span style="color: #B00040">uint32_t</span>) InstructionSet<span style="color: #666666">::</span>i32const, calculation.getDepth(),result};
+
+    
+    instructions[posConst1] <span style="color: #666666">=</span> inst;
+instructions.erase(instructions.begin() <span style="color: #666666">+</span> posConst2, instructions.begin() <span style="color: #666666">+</span> posCalc);
+    
+
+}
+</pre></div>
+                            <p>
+                                Constant folding has the advantage that the program will not waste time on instructions that are not necessary and thus will run faster.
+                            </p>
+
+               </div>
+               <div>   
+                            <h2 class="pt-2 tm-color-primary tm-post-title">Function inlining</h2>
+                               <hr class="tm-hr-primary tm-mb-45">
+                            <p>
+                                The second optimisation is function inlining. This inserts functions that are only called once on the place of a call function and it removes the overhead that it comes with. This ensures a faster runtime whilst not making the program longer than needed. To achieve this, first the amount of times each function is called is calculated. If it is only called once inlining will be done.
+                                inlining itself means that the call and the preperation of parameters is removed from the place where it is called. The function body will be placed at the spot of where the call was situated. In case the function was exported inlining will be dissabled for that function as it needs to be accessable. The code can be found <a href="https://github.com/NilsLenaerts/SEIS_Lenaerts-Nijssen/blob/main/Project/SEIS_Lenaerts_Nijssen/SEIS_Lenaerts_Nijssen/Compiler.cpp" target="_blank" class="tm-external-link">here</a>.
+                            </p>
+             </div>
+
+<!-- -->
+
+
 
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
                     <a href="parser.html" class="mb-2 tm-btn tm-btn-primary tm-prev-next">Prev</a>
-                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20">Next</a>
+                    <a href="#" class="mb-2 tm-btn tm-btn-primary tm-prev-next disabled">Next</a>
                 </div>
             </div>           
-
-
-
             <footer class="row tm-row">
                 <div class="col-md-6 col-12 tm-color-gray">
                     Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
                 </div>
-                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
-                    Copyright 2020 Xtra Blog Company Co. Ltd.
-                </div>
+               
             </footer>
         </main>
     </div>
