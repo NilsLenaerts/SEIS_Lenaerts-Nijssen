@@ -41,6 +41,7 @@ public:
 		if (inst == "param") return InstructionSet::param;
 		if (inst == "module") return InstructionSet::Module;
 		if (inst == "result") return InstructionSet::result;
+		return InstructionSet::nop;
 	}
 
 	static bool isConst(InstructionSet instruction) {
@@ -74,9 +75,8 @@ public:
 	void setParam(uint32_t parameter);
 	std::string getStringValue()const;
 private:
-	std::variant<
-		uint32_t,
-		std::string> param=0;
+	uint32_t intVal{};
+	std::string stringVal{};
 	int depth=0;
 	uint32_t opcode;
 

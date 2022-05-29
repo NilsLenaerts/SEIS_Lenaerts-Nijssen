@@ -1,9 +1,4 @@
-﻿  Compiler.cpp
-  Instruction.cpp
-  Parser.cpp
-X:\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\SEIS_Lenaerts_Nijssen\Parser.cpp(153,18): warning C4834: discarding return value of function with 'nodiscard' attribute
-X:\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\SEIS_Lenaerts_Nijssen\Parser.cpp(171,18): warning C4834: discarding return value of function with 'nodiscard' attribute
-  SEIS_Lenaerts_Nijssen.cpp
+﻿  SEIS_Lenaerts_Nijssen.cpp
+  Token.cpp
   Generating Code...
-X:\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\SEIS_Lenaerts_Nijssen\Instruction.h(44): warning C4715: 'Instruction::getInstruction': not all control paths return a value
   SEIS_Lenaerts_Nijssen.vcxproj -> X:\school\SEIS\SEIS_Lenaerts-Nijssen\Project\SEIS_Lenaerts_Nijssen\x64\Debug\SEIS_Lenaerts_Nijssen.exe
