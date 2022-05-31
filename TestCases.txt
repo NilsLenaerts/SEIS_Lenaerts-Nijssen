@@ -1,0 +1,132 @@
+
+
+#################################
+# 	Test Case 1		#
+#################################
+
+(param i32) (result i32)
+        local.get 0
+        local.get 1
+        i32.add
+    )
+     
+    (func (param i32) (result i32)
+        local.get 0
+        i32.const 10
+        call 2
+    ))
+
+
+
+#################################
+# 	Test Case 2		#
+#################################
+
+(module
+    (import "js" "mem" (memory 1))
+    (import "console" "log" (func (param i32)))
+    (data (i32.const 20) "++++++++Hello There")
+
+    ;; a + b - i * j
+    (func (param i32) (param i32) (param i32) (param i32) (result i32)
+        local.get 0
+        local.get 1
+        i32.add
+        local.get 2
+        local.get 3
+        i32.mul
+        i32.sub
+    )  
+
+    (func (param i32) (param i32) (local i32) (local i32)
+        local.get 0
+        local.get 1
+        i32.const 20 ;; interpret ++++++++ in "data" as an i32
+        i32.load
+        i32.const 3
+        call 1
+        i32.const 2122219135 ;; reduce to 0-based if both parameters are 0
+        i32.sub
+        local.set 2 ;; store for later
+        local.get 2
+        i32.const 0
+        i32.ge_s ;; if >= 0
+        if (result i32)
+            i32.const 666
+            local.get 2 
+            i32.add
+        else
+            i32.const -400
+            local.get 2 
+            i32.add
+        end
+        local.set 2
+        i32.const 0 ;; prepare iterator
+        local.set 3
+        (loop
+            ;; add 10 to the result
+            local.get 2
+            i32.const 1
+            i32.add 
+            local.set 2
+
+            ;; add one to iterator
+            local.get 3
+            i32.const 1
+            i32.add
+            local.set 3
+
+            ;; if $i is less than 10, jump back to loop
+            local.get 3
+            i32.const 10
+            i32.lt_s        ;; _s = signed variant of lt
+            br_if 0  
+        )
+        local.get 2
+        call 0
+    )
+
+#################################
+# 	Test Case 3		#
+#################################
+
+(param i32) (result i32)
+        local.get 0
+        local.get 1
+        i32.add
+    )
+     
+    (func (param i32) (result i32)
+        local.get 0
+        i32.const 10
+        call 2
+    )
+
+[This should give an exception for the brackets]
+
+
+#################################
+# 	Test Case 4		#
+#################################
+
+(module
+  (func (export "addTwo") (param i32 i32) (result i32)
+    local.get 0
+    local.get 1
+    i32.add))
+
+
+#################################
+# 	Test Case 5		#
+#################################
+
+(module
+  (func $swap (param i32 i32) (result i32 i32)
+    local.get 1
+    local.get 0)
+
+  (func (export "reverseSub") (param i32 i32) (result i32)
+    local.get 0
+    local.get 1
+    call $swap
+    i32.sub))
